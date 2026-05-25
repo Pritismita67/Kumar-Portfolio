@@ -154,7 +154,7 @@ const PROJECTS = [
     status: "Live",
     tags: ["Figma"],
     coverImage: "/prevam.png",
-    images: ["/Prevacare 1.png","/Prevacare 2.png","/Prevacare 3.png","/Prevacare 4.png","/Prevacare 5.png","/Prevacare 6.png","/Prevacare 7.png","/Prevacare 8.png","/Prevacare 9.png","/Prevacare 10.png","/Prevacare 11.png","/Prevacare 12.png","/Prevacare 13.png","/Prevacare 14.png"],
+    images: ["/Prevacare 1.png","/PrevaCare 2.png","/PrevaCare 3.png","/PrevaCare 4.png","/PrevaCare 5.png","/PrevaCare 6.png","/Prevacare 7.png","/PrevaCare 8.png","/PrevaCare 9.png","/PrevaCare 10.png","/PrevaCare 11.png","/PrevaCare 12.png","/PrevaCare 13.png","/PrevaCare 14.png"],
     description:
       "Prevacare represents a comprehensive approach to healthcare application design, focusing on user-centric solutions that bridge the gap between patients and healthcare providers. Through extensive research, wireframing, and iterative design processes, I created an intuitive mobile interface that simplifies appointment scheduling, medical record management, and telehealth consultations. The design emphasizes accessibility, clarity, and trust-building elements essential for healthcare applications, ensuring users can navigate complex medical processes with confidence and ease.🏥✨",
     challenge:
