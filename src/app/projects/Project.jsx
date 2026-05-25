@@ -639,30 +639,25 @@ export default function Projects() {
                     {/* ✅ FIX 3: Only render the ACTIVE image — previously ALL images
                         were in the DOM at once (huge memory waste for 26-image galleries).
                         Preload next image silently in background. */}
-                    <div className="mgal-img-wrap show">
-                      <Image
-                        key={selected.images[imgIndex]}
-                        src={selected.images[imgIndex]}
-                        alt={`${selected.title} screenshot ${imgIndex + 1}`}
-                        fill
-                        sizes="(max-width: 860px) 100vw, 860px"
-                        style={{ objectFit: "contain" }}
-                        priority
-                      />
-                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+<img
+  key={selected.images[imgIndex]}
+  src={selected.images[imgIndex]}
+  alt={`${selected.title} screenshot ${imgIndex + 1}`}
+  style={{
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "contain",
+    objectPosition: "center",
+  }}
+/>
 
-                    {/* Silently preload the next image */}
-                    {selected.images[imgIndex + 1] && (
-                      <Image
-                        key={`pre-${selected.images[imgIndex + 1]}`}
-                        src={selected.images[imgIndex + 1]}
-                        alt=""
-                        fill
-                        sizes="1px"
-                        style={{ opacity: 0, pointerEvents: "none" }}
-                        priority
-                      />
-                    )}
+{/* Preload next image */}
+{selected.images[imgIndex + 1] && (
+  <link rel="preload" as="image" href={selected.images[imgIndex + 1]} />
+)}
 
                     <div className="gal-overlay" />
                     {selected.images.length > 1 && (
