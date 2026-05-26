@@ -17,3 +17,103 @@ html, body {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #02010a; }
 ::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.4); border-radius: 99px; }
+
+/* ── Warm white text override ─────────────────────────────────────────
+   Single place — applies to every page automatically via layout.js
+──────────────────────────────────────────────────────────────────── */
+
+:root {
+  --warm-primary:   #f5f0eb;
+  --warm-secondary: #e8e2d9;
+  --warm-muted:     #c9bfb0;
+  --warm-hint:      #a89e90;
+}
+
+/* Main prose / body text (hero desc, info panels, overview, quotes) */
+.hero-desc,
+.info-desc,
+.contact-subtitle,
+.sec-text,
+.t-quote,
+.sec-sub {
+  color: var(--warm-secondary) !important;
+}
+
+/* Card & modal secondary text */
+.card-tagline,
+.card-meta,
+.modal-tagline,
+.lightbox-info p,
+.gallery-caption {
+  color: var(--warm-muted) !important;
+}
+
+/* Footer & nav muted text */
+.ft-tagline,
+.ft-copy,
+.ft-made,
+.ft-nav-link,
+.ft-email-text {
+  color: var(--warm-muted) !important;
+}
+.ft-nav-link:hover { color: var(--warm-primary) !important; }
+
+/* Stats, chips, labels */
+.chip-label,
+.detail-value,
+.form-hint {
+  color: var(--warm-muted) !important;
+}
+
+/* Testimonial subtitle */
+.t-subtitle { color: var(--warm-muted) !important; }
+
+/* Form placeholders */
+.field-input::placeholder,
+.field-textarea::placeholder {
+  color: var(--warm-hint) !important;
+  opacity: 1;
+}
+
+/* DM Mono monospace descriptions */
+.expertise-tag { color: var(--warm-secondary) !important; }
+.role-text      { color: var(--warm-secondary) !important; }
+.lock-label     { color: var(--warm-muted)     !important; }
+
+/* Lenis smooth scroll base */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Prevent layout shift during split */
+h1, h2, h3, [data-animate="letters"] {
+  overflow: visible;
+}
+
+/* SplitType wraps words in spans — keep inline */
+.word {
+  display: inline-block;
+  overflow: visible;
+}
+
+.char {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+  transform-origin: top center;
+}

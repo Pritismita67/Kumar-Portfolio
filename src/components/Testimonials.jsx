@@ -473,7 +473,7 @@ export default function Testimonials() {
           </div>
           <div className="t-stat-divider" />
           <div className="t-stat">
-            <span className="t-stat-num">50+</span>
+            <span className="t-stat-num">42+</span>
             <span className="t-stat-label">Projects Done</span>
           </div>
           <div className="t-stat-divider" />

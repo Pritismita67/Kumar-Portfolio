@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-// ✅ FIX 1: Import Next.js Image for automatic WebP/AVIF, CDN caching, no layout shift
 import Image from "next/image";
 
 const PROJECTS = [
@@ -44,7 +43,6 @@ const PROJECTS = [
     status: "Live",
     tags: ["Figma", "Framer", "Canva Pro"],
     coverImage: "/S12.png",
-    // ✅ FIX 2: Added missing leading "/" — these were 404ing silently before!
     images: ["/S1.png","/S2.png","/S3.png","/S4.png","/S5.png","/S6.png","/S7.png","/S8.png","/S9.png","/S10.png","/S11.png","/S12.png","/S14.png","/S15.png"],
     description:
       "Swarikaro is a modern bike and car rental platform designed to simplify vehicle discovery, booking, and ride planning through an intuitive and seamless digital experience. The goal was to create a user-first ecosystem where users could easily explore vehicles, compare options, rent riding accessories, and complete bookings with minimal friction.",
@@ -93,7 +91,6 @@ const PROJECTS = [
     status: "Live",
     tags: ["Framer", "Figma"],
     coverImage: "/Netflix 1.png",
-    // ✅ FIX: Added missing leading "/" on Netflix 4.png
     images: ["/Netflix 1.png","/Netflix 2.png","/Netflix 3.png","/Netflix 4.png"],
     description:
       "Designed a UI/UX Netflix mobile app clone that replicates the original app's interface and user flow with high accuracy. The goal was to study and recreate the design system, layout structure, and user interactions of Netflix. I matched the visual hierarchy, navigation patterns, and content presentation, including home screen, categories, video thumbnails, and player interface. This project helped me deepen my understanding of industry-grade design standards and mobile streaming UX. Built entirely in Figma, maintaining pixel-perfect alignment and consistency.📱🎬",
@@ -133,7 +130,6 @@ const PROJECTS = [
     status: "Live",
     tags: ["Figma", "Sketch", "Framer"],
     coverImage: "/abunm.png",
-    // ✅ FIX: Added missing leading "/" on Abun4–11.png
     images: ["/Abun1.png","/Abun2.png","/Abun3.png","/Abun4.png","/Abun5.png","/Abun6.png","/Abun7.png","/Abun8.png","/Abun9.png","/Abun10.png","/Abun11.png"],
     description:
       "Abun is an advanced AI content writing platform built to streamline digital content creation for marketers, bloggers, startups, and agencies. My task was to design a high-impact website that communicates Abun's diverse capabilities—from SEO-optimized blogs and product descriptions to ad copies and social posts—all driven by AI. The design highlights key features like real-time SEO integration, keyword suggestions, automated internal linking, and one-click content generation. I structured user journeys for different personas (writers, marketers, SMBs), ensuring the platform's value was clearly conveyed through compelling CTAs and modular UI sections. Testimonials, FAQs, and use cases were positioned strategically to build trust and demonstrate results. Special focus was given to showcasing Abun's powerful dashboard, ease of use, and automation features that help users publish faster without sacrificing quality. The final product reflects a clean, conversion-driven layout optimized for both desktop and mobile.🤖✨",
@@ -174,7 +170,6 @@ const PROJECTS = [
     status: "Live",
     tags: ["Figma", "Canva Pro"],
     coverImage: "/toletm.png",
-    // ✅ FIX: Added missing leading "/" on Tolet Globe 4–8.png
     images: ["/Tolet Globe 1.png","/Tolet Globe 2.png","/Tolet Globe 3.png","/Tolet Globe 4.png","/Tolet Globe 5.png","/Tolet Globe 6.png","/Tolet Globe 7.png","/Tolet Globe 8.png"],
     description:
       "ToletGlobe.in is an emerging real estate and property management platform that assists users in finding affordable housing solutions, including houses, flats, warehouses, PGs, and offices. It offers a comprehensive suite of services for buying, selling, and renting both residential and commercial properties. Inspired by industry leaders like 99acres, the platform aims to simplify the property search process and make housing accessible for people relocating to new cities—all from the comfort of their homes. My contribution involved redesigning their landing page, focusing on improved usability, a cleaner visual hierarchy, and an overall more engaging user experience to increase user trust, enhance navigation clarity, and boost overall conversion.🏠🔍",
@@ -194,7 +189,6 @@ const PROJECTS = [
     status: "Live",
     tags: ["Figma", "Canva", "Stitch"],
     coverImage: "/kirasnm.png",
-    // ✅ FIX: Added missing leading "/" on Pink Kiran Foundation 4–26.png
     images: [
       "/Pink Kiran Foundation 1.png","/Pink Kiran Foundation 2.png","/Pink Kiran Foundation 3.png",
       "/Pink Kiran Foundation 4.png","/Pink Kiran Foundation 5.png","/Pink Kiran Foundation 6.png",
@@ -347,10 +341,106 @@ function ModalWithBorder({ color, children }) {
   );
 }
 
+/* ─── Lightbox (zoom overlay) ─────────────────────────────────────── */
+function Lightbox({ images, startIndex, onClose }) {
+  const [idx, setIdx] = useState(startIndex);
+  const [zoomed, setZoomed] = useState(false);
+  const [dragStart, setDragStart] = useState(null);
+
+  // Close on Escape, navigate with arrow keys
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") setIdx((i) => (i + 1) % images.length);
+      if (e.key === "ArrowLeft") setIdx((i) => (i - 1 + images.length) % images.length);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [images.length, onClose]);
+
+  // Reset zoom when image changes
+  useEffect(() => { setZoomed(false); }, [idx]);
+
+  const prev = (e) => { e.stopPropagation(); setIdx((i) => (i - 1 + images.length) % images.length); };
+  const next = (e) => { e.stopPropagation(); setIdx((i) => (i + 1) % images.length); };
+
+  // Touch swipe
+  const onTouchStart = (e) => setDragStart(e.touches[0].clientX);
+  const onTouchEnd = (e) => {
+    if (dragStart === null) return;
+    const diff = dragStart - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) diff > 0 ? setIdx((i) => (i + 1) % images.length) : setIdx((i) => (i - 1 + images.length) % images.length);
+    setDragStart(null);
+  };
+
+  return (
+    <div
+      className="lb-backdrop"
+      onClick={onClose}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      {/* Close button */}
+      <button className="lb-close" onClick={onClose} aria-label="Close lightbox">✕</button>
+
+      {/* Counter */}
+      <div className="lb-counter">{idx + 1} / {images.length}</div>
+
+      {/* Main image */}
+      <div
+        className={`lb-img-wrap${zoomed ? " lb-zoomed" : ""}`}
+        onClick={(e) => { e.stopPropagation(); setZoomed((z) => !z); }}
+        title={zoomed ? "Click to zoom out" : "Click to zoom in"}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          key={images[idx]}
+          src={images[idx]}
+          alt={`Image ${idx + 1}`}
+          className="lb-img"
+          draggable={false}
+        />
+        {/* Zoom hint */}
+        {!zoomed && (
+          <div className="lb-zoom-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
+              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/>
+            </svg>
+            Click to zoom
+          </div>
+        )}
+      </div>
+
+      {/* Navigation arrows */}
+      {images.length > 1 && (
+        <>
+          <button className="lb-arrow lb-prev" onClick={prev} aria-label="Previous image">‹</button>
+          <button className="lb-arrow lb-next" onClick={next} aria-label="Next image">›</button>
+        </>
+      )}
+
+      {/* Dot strip */}
+      {images.length > 1 && (
+        <div className="lb-dots" onClick={(e) => e.stopPropagation()}>
+          {images.map((_, i) => (
+            <button
+              key={i}
+              className={`lb-dot${i === idx ? " lb-dot-on" : ""}`}
+              onClick={() => setIdx(i)}
+              aria-label={`Go to image ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Projects() {
   const [selected, setSelected] = useState(null);
   const [dots, setDots] = useState([]);
   const [imgIndex, setImgIndex] = useState(0);
+  const [lightboxIndex, setLightboxIndex] = useState(null); // null = closed
   const backdropRef = useRef(null);
 
   useEffect(() => {
@@ -368,13 +458,18 @@ export default function Projects() {
   }, []);
 
   const openModal = (p) => { setSelected(p); setImgIndex(0); document.body.style.overflow = "hidden"; };
-  const closeModal = () => { setSelected(null); document.body.style.overflow = ""; };
+  const closeModal = () => { setSelected(null); setLightboxIndex(null); document.body.style.overflow = ""; };
+  const openLightbox = (idx) => { setLightboxIndex(idx); };
+  const closeLightbox = () => setLightboxIndex(null);
 
   useEffect(() => {
-    const onKey = (e) => e.key === "Escape" && closeModal();
+    const onKey = (e) => {
+      // Only close modal on Escape if lightbox is NOT open (lightbox handles its own Escape)
+      if (e.key === "Escape" && lightboxIndex === null) closeModal();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [lightboxIndex]);
 
   const prevImg = () => setImgIndex((i) => (i - 1 + selected.images.length) % selected.images.length);
   const nextImg = () => setImgIndex((i) => (i + 1) % selected.images.length);
@@ -427,19 +522,15 @@ export default function Projects() {
           box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(167,139,250,0.22) inset, 0 0 90px rgba(124,58,237,0.11);
         }
         @keyframes cardUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* ✅ FIX: card-img-wrap must be position:relative for Next.js Image fill */
         .card-img-wrap {
           position: relative; width: 100%; overflow: hidden;
           background: rgba(0,0,0,0.45); flex-shrink: 0;
         }
-        /* hover scale wrapper for Next.js Image */
         .card-img-scale {
           position: absolute; inset: 0;
           transition: transform 0.55s cubic-bezier(.22,1,.36,1);
         }
         .pr-card:hover .card-img-scale { transform: scale(1.07); }
-
         .card-img-overlay {
           position: absolute; inset: 0;
           background: linear-gradient(to bottom, transparent 30%, rgba(10,5,22,0.65) 100%);
@@ -498,8 +589,6 @@ export default function Projects() {
           cursor: pointer; transition: all 0.2s; z-index: 20; backdrop-filter: blur(10px);
         }
         .modal-close:hover { background: rgba(124,58,237,0.35); border-color: rgba(167,139,250,0.8); color: #fff; box-shadow: 0 0 12px rgba(124,58,237,0.5); }
-
-        /* ✅ FIX: modal-gallery must be position:relative for Next.js Image fill */
         .modal-gallery {
           position: relative; width: 100%; height: 55vh; flex-shrink: 0;
           overflow: hidden; background: rgba(0,0,0,0.3);
@@ -532,6 +621,16 @@ export default function Projects() {
         }
         .gal-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.25); border: none; padding: 0; cursor: pointer; transition: all 0.25s; }
         .gal-dot.on { background: #a78bfa; width: 16px; border-radius: 3px; box-shadow: 0 0 6px rgba(167,139,250,0.6); }
+
+        /* ── CLICKABLE image + zoom-in cursor hint ── */
+        .gal-img-clickable {
+          position: absolute; inset: 0; width: 100%; height: 100%;
+          object-fit: contain; object-position: center;
+          cursor: zoom-in; z-index: 3;
+          transition: transform 0.3s ease;
+        }
+        .gal-img-clickable:hover { transform: scale(1.02); }
+
         .modal-divider { width: 100%; height: 0.5px; flex-shrink: 0; background: linear-gradient(90deg, transparent, rgba(167,139,250,0.2), transparent); }
         .modal-content {
           padding: 24px 32px 32px; overflow-y: auto; flex: 1;
@@ -561,6 +660,87 @@ export default function Projects() {
         .cta-primary:hover { transform: translateY(-2px); background: rgba(124,58,237,0.85); box-shadow: 0 0 32px rgba(124,58,237,0.55), inset 0 0 0 0.5px rgba(255,255,255,0.12); }
         .cta-ghost { background: rgba(255,255,255,0.04); color: rgba(200,185,255,.75); border: 0.5px solid rgba(167,139,250,.2); backdrop-filter: blur(8px); }
         .cta-ghost:hover { border-color: rgba(167,139,250,.5); background: rgba(124,58,237,.12); color: #fff; transform: translateY(-2px); box-shadow: 0 0 16px rgba(124,58,237,0.2); }
+
+        /* ── LIGHTBOX ── */
+        .lb-backdrop {
+          position: fixed; inset: 0; z-index: 99999;
+          background: rgba(2, 1, 12, 0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+          display: flex; align-items: center; justify-content: center;
+          animation: bfIn 0.2s ease;
+          padding: 20px;
+        }
+        .lb-close {
+          position: absolute; top: 18px; right: 18px; width: 40px; height: 40px; border-radius: 50%;
+          background: rgba(255,255,255,0.07); border: 0.5px solid rgba(167,139,250,0.45);
+          color: rgba(232,224,255,0.85); font-size: 17px;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; transition: all 0.2s; z-index: 10; backdrop-filter: blur(10px);
+        }
+        .lb-close:hover { background: rgba(124,58,237,0.4); border-color: rgba(167,139,250,0.9); color: #fff; box-shadow: 0 0 14px rgba(124,58,237,0.55); }
+        .lb-counter {
+          position: absolute; top: 22px; left: 50%; transform: translateX(-50%);
+          font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: .18em;
+          color: rgba(167,139,250,0.7); background: rgba(20,10,40,0.6);
+          border: 0.5px solid rgba(167,139,250,0.2); border-radius: 999px; padding: 4px 14px;
+          backdrop-filter: blur(8px); z-index: 10;
+        }
+        .lb-img-wrap {
+          position: relative; max-width: 90vw; max-height: 85vh;
+          display: flex; align-items: center; justify-content: center;
+          cursor: zoom-in;
+          animation: lbImgPop 0.25s cubic-bezier(.22,1,.36,1);
+        }
+        @keyframes lbImgPop { from { opacity: 0; transform: scale(0.93); } to { opacity: 1; transform: scale(1); } }
+        .lb-img-wrap.lb-zoomed { cursor: zoom-out; overflow: auto; }
+        .lb-img {
+          max-width: 90vw; max-height: 85vh;
+          object-fit: contain;
+          border-radius: 10px;
+          box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 0.5px rgba(167,139,250,0.15);
+          display: block;
+          transition: transform 0.35s cubic-bezier(.22,1,.36,1), border-radius 0.3s;
+          user-select: none;
+          -webkit-user-drag: none;
+        }
+        .lb-img-wrap.lb-zoomed .lb-img {
+          max-width: none; max-height: none;
+          width: 180%; height: auto;
+          border-radius: 6px;
+          cursor: zoom-out;
+        }
+        .lb-zoom-hint {
+          position: absolute; bottom: 14px; right: 14px;
+          display: flex; align-items: center; gap: 5px;
+          font-family: 'Syne', sans-serif; font-size: 10px; letter-spacing: .12em;
+          color: rgba(200,185,255,0.55); background: rgba(10,5,25,0.65);
+          border: 0.5px solid rgba(167,139,250,0.18); border-radius: 999px;
+          padding: 4px 10px; backdrop-filter: blur(8px);
+          pointer-events: none;
+          animation: hintFade 0.4s ease 1.2s both;
+        }
+        @keyframes hintFade { from { opacity: 0; } to { opacity: 1; } }
+        .lb-arrow {
+          position: absolute; top: 50%; transform: translateY(-50%);
+          width: 46px; height: 46px; border-radius: 50%;
+          background: rgba(0,0,0,0.5); border: 0.5px solid rgba(167,139,250,0.35);
+          color: rgba(255,255,255,0.9); font-size: 24px;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; z-index: 10; transition: all 0.2s; backdrop-filter: blur(8px);
+        }
+        .lb-arrow:hover { background: rgba(124,58,237,0.5); border-color: rgba(167,139,250,0.75); box-shadow: 0 0 16px rgba(124,58,237,0.45); }
+        .lb-prev { left: 18px; }
+        .lb-next { right: 18px; }
+        @media (max-width: 600px) { .lb-prev { left: 8px; } .lb-next { right: 8px; } .lb-arrow { width: 36px; height: 36px; font-size: 18px; } }
+        .lb-dots {
+          position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+          display: flex; gap: 7px; align-items: center; z-index: 10;
+          max-width: 90vw; overflow-x: auto; padding: 0 10px;
+        }
+        .lb-dot {
+          flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%;
+          background: rgba(255,255,255,0.22); border: none; padding: 0; cursor: pointer; transition: all 0.22s;
+        }
+        .lb-dot.lb-dot-on { background: #a78bfa; width: 18px; border-radius: 3px; box-shadow: 0 0 6px rgba(167,139,250,0.65); }
       `}</style>
 
       <div className="pr-root" style={{ color: "#e8e0ff", position: "relative", zIndex: 10 }}>
@@ -587,8 +767,6 @@ export default function Projects() {
                 style={{ aspectRatio: p.type === "mobile" ? "9/16" : p.type === "pdf" ? "3/4" : "16/9" }}
               >
                 <div className="card-img-accent" style={{ background: `linear-gradient(90deg, ${p.color}, transparent)` }} />
-                {/* ✅ FIX: Next.js Image — priority on first 3 cards (above fold),
-                    lazy on the rest. Gives WebP, CDN caching, no layout shift. */}
                 <div className="card-img-scale">
                   <Image
                     src={p.coverImage}
@@ -620,6 +798,7 @@ export default function Projects() {
         </div>
       </div>
 
+      {/* ── PROJECT MODAL ── */}
       {selected && (
         <div
           className="modal-backdrop"
@@ -636,30 +815,23 @@ export default function Projects() {
                   <iframe src={selected.images[0]} title={selected.title} className="mgal-pdf" />
                 ) : (
                   <>
-                    {/* ✅ FIX 3: Only render the ACTIVE image — previously ALL images
-                        were in the DOM at once (huge memory waste for 26-image galleries).
-                        Preload next image silently in background. */}
+                    {/* Clickable image — opens lightbox on click */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-<img
-  key={selected.images[imgIndex]}
-  src={selected.images[imgIndex]}
-  alt={`${selected.title} screenshot ${imgIndex + 1}`}
-  style={{
-    position: "absolute",
-    inset: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "contain",
-    objectPosition: "center",
-  }}
-/>
+                    <img
+                      key={selected.images[imgIndex]}
+                      src={selected.images[imgIndex]}
+                      alt={`${selected.title} screenshot ${imgIndex + 1}`}
+                      className="gal-img-clickable"
+                      onClick={() => openLightbox(imgIndex)}
+                      title="Click to view full size"
+                    />
 
-{/* Preload next image */}
-{selected.images[imgIndex + 1] && (
-  <link rel="preload" as="image" href={selected.images[imgIndex + 1]} />
-)}
+                    {/* Preload next image */}
+                    {selected.images[imgIndex + 1] && (
+                      <link rel="preload" as="image" href={selected.images[imgIndex + 1]} />
+                    )}
 
-                    <div className="gal-overlay" />
+                    <div className="gal-overlay" style={{ pointerEvents: "none" }} />
                     {selected.images.length > 1 && (
                       <>
                         <button className="gal-arrow prev" onClick={prevImg} aria-label="Previous">‹</button>
@@ -733,6 +905,15 @@ export default function Projects() {
             </div>
           </ModalWithBorder>
         </div>
+      )}
+
+      {/* ── LIGHTBOX ZOOM OVERLAY ── */}
+      {selected && lightboxIndex !== null && (
+        <Lightbox
+          images={selected.images}
+          startIndex={lightboxIndex}
+          onClose={closeLightbox}
+        />
       )}
     </>
   );

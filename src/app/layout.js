@@ -1,5 +1,8 @@
-import SceneBackground from '@/components/SceneBackground'
 import Navbar from '@/components/Navbar'
+import LenisProvider from '@/components/LenisProvider'
+import TextAnimator from '@/components/TextAnimator'
+import SceneBackground from '@/components/SceneBackground'
+
 import './globals.css'
 
 export const metadata = {
@@ -17,18 +20,23 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body style={{ margin: 0, padding: 0, background: '#02010a', overflowX: 'hidden' }}>
+        <LenisProvider>
 
-        {/* Cinematic 3D background — always visible on every page */}
-        <SceneBackground />
+          {/* Cinematic 3D background — always visible */}
+          <SceneBackground />
 
-        {/* Glassmorphism navbar — always visible */}
-        <Navbar />
 
-        {/* Each page renders its own content here */}
-        <main style={{ position: 'relative', zIndex: 10 }}>
-          {children}
-        </main>
+          {/* Glassmorphism navbar */}
+          <Navbar />
 
+          {/* 🔤 Letter drop animation — ALL headings on ALL pages */}
+          <TextAnimator />
+
+          <main style={{ position: 'relative', zIndex: 10 }}>
+            {children}
+          </main>
+
+        </LenisProvider>
       </body>
     </html>
   )
