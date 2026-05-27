@@ -2,12 +2,33 @@ import Navbar from '@/components/Navbar'
 import LenisProvider from '@/components/LenisProvider'
 import TextAnimator from '@/components/TextAnimator'
 import SceneBackground from '@/components/SceneBackground'
-
+import TechOrbit from '@/components/TechOrbit'
 import './globals.css'
 
 export const metadata = {
   title: 'Kumar Pritish — Creative Developer',
-  description: 'Full Stack Developer & Creative Coder',
+  description: 'UX/UI Designer',
+  openGraph: {
+    title: 'Kumar Pritish — Creative Developer',
+    description: 'UX/UI Designer',
+    url: 'https://pritish-kumar-portfolio.vercel.app',
+    siteName: 'Kumar Pritish Portfolio',
+    images: [
+      {
+        url: 'https://pritish-kumar-portfolio.vercel.app/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Kumar Pritish — Creative Developer',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Kumar Pritish — Creative Developer',
+    description: 'UX/UI Designer',
+    images: ['https://pritish-kumar-portfolio.vercel.app/og-image.png'],
+  },
 }
 
 export default function RootLayout({ children }) {
@@ -22,16 +43,19 @@ export default function RootLayout({ children }) {
       <body style={{ margin: 0, padding: 0, background: '#02010a', overflowX: 'hidden' }}>
         <LenisProvider>
 
-          {/* Cinematic 3D background — always visible */}
+          {/* Layer 1 — Cinematic 3D star background */}
           <SceneBackground />
 
+          {/* Layer 2 — Orbiting tech stack, fixed on every page */}
+          <TechOrbit />
 
-          {/* Glassmorphism navbar */}
+          {/* Layer 3 — Navbar */}
           <Navbar />
 
-          {/* 🔤 Letter drop animation — ALL headings on ALL pages */}
+          {/* Layer 4 — Letter drop on every heading, every page */}
           <TextAnimator />
 
+          {/* Layer 5 — Page content */}
           <main style={{ position: 'relative', zIndex: 10 }}>
             {children}
           </main>

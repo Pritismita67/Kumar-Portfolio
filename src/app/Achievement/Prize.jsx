@@ -65,7 +65,7 @@ const RECOGNITION_ITEMS = [
 ];
 
 const GALLERY_IMAGES = [
-  { id: 1,  src: "/Last Image.JPG",  caption: "Chakravyuh 1.O- All India National Level Hackathon" },
+  { id: 1,  src: "/Team.JPG",  caption: "Chakravyuh 1.O- All India National Level Hackathon" },
   { id: 2,  src: "/2.png",           caption: "GIET Hackathon Winner" },
   { id: 3,  src: "/Third Image.JPG", caption: "Chakravyuh 1.O- All India National Level Hackathon" },
   { id: 4,  src: "/6.png",           caption: "BPUT Hackathon 2024 - First Place" },

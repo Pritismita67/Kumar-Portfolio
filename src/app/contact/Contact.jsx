@@ -273,8 +273,9 @@ export default function Contact() {
           font-size: 9px;
           letter-spacing: 0.28em;
           text-transform: uppercase;
-          color: rgba(167,139,250,0.5);
+          color: rgba(255, 255, 255, 0.5);
           margin-bottom: 14px;
+          font-weight: 300px;
         }
         .socials-row {
           display: flex;
@@ -533,7 +534,7 @@ export default function Contact() {
                 </div>
                 <div className="detail-text">
                   <span className="detail-label">Email</span>
-                  <span className="detail-value">your@email.com</span>
+                  <span className="detail-value">pritishsahoo25@gmail.com</span>
                 </div>
               </div>
 
