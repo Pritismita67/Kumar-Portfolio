@@ -50,22 +50,18 @@ export default function Navbar() {
         }}
       >
         {/* Logo */}
-        <span
+        <img
+          src="/Pritish Logo.png"
+          alt="Pritish Logo"
           style={{
-            fontFamily: '"Courier New", monospace',
-            fontWeight: 800,
-            fontSize: '1rem',
-            letterSpacing: '0.08em',
-            background: 'linear-gradient(90deg, #f5d0fe, #a855f7, #3b82f6)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            width: '42px',
+            height: '42px',
+            borderRadius: '50%',
             marginRight: '1.5rem',
-            userSelect: 'none',
             flexShrink: 0,
+            objectFit: 'cover',
           }}
-        >
-          PK
-        </span>
+        />
 
         {/* Desktop nav links */}
         <div className="nav-links-desktop" style={{ alignItems: 'center', gap: '0.25rem' }}>
