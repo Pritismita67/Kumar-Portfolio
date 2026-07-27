@@ -205,7 +205,7 @@ export default function Testimonials() {
 
         .t-title {
           font-family: 'Syne', sans-serif;
-          font-size: clamp(26px, 4vw, 50px);
+          font-size: clamp(30px, 3.6vw, 46px);
           font-weight: 800;
           color: #f0eaff;
           letter-spacing: -0.02em;
@@ -217,7 +217,7 @@ export default function Testimonials() {
 
         .t-subtitle {
           font-family: 'DM Mono', monospace;
-          font-size: 12px;
+          font-size: 11.5px;
           font-weight: 300;
           color: rgba(203,213,225,0.4);
           letter-spacing: 0.06em;
@@ -285,10 +285,10 @@ export default function Testimonials() {
           padding: 26px 28px 22px;
           box-sizing: border-box;
           border-radius: 20px;
-          background: rgba(255, 255, 255, 0.04);
+          background: rgba(8, 4, 16, 0.97);
           border: 1px solid rgba(255, 255, 255, 0.09);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(50px);
+          -webkit-backdrop-filter: blur(22px);
           box-shadow:
             0 4px 28px rgba(0,0,0,0.35),
             0 0 0 1px rgba(139,92,246,0.07),
@@ -374,7 +374,7 @@ export default function Testimonials() {
         /* Quote text */
         .t-quote {
           font-family: 'DM Mono', monospace;
-          font-size: 11.5px;
+          font-size: 10px;
           font-weight: 300;
           line-height: 1.85;
           color: rgba(203,213,225,0.62);

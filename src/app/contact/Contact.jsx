@@ -147,9 +147,10 @@ export default function Contact() {
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
+        /* ✅ FIX: font-size matched to project file's .sec-text / .card-tagline (10.5px) */
         .contact-subtitle {
           font-family: 'Syne', sans-serif;
-          font-size: 13px;
+          font-size: 10.5px;
           color: rgba(200, 185, 255, 0.5);
           letter-spacing: 0.04em;
           max-width: 420px;
@@ -177,11 +178,12 @@ export default function Contact() {
           .contact-grid { grid-template-columns: 1fr; }
         }
 
+        /* ✅ FIX: opaque panel background — page background/dots no longer show through */
         .glass-panel {
           background: linear-gradient(
             135deg,
-            rgba(255,255,255,0.055) 0%,
-            rgba(124,58,237,0.07) 100%
+            rgba(18,10,35,0.97) 0%,
+            rgba(30,14,50,0.97) 100%
           );
           border: 1px solid rgba(167,139,250,0.16);
           border-radius: 22px;
@@ -202,10 +204,11 @@ export default function Contact() {
           color: rgba(232,224,255,0.7);
           margin: 0 0 8px;
         }
+        /* ✅ FIX: font-size + weight matched to project file's .card-title (1rem / 500) */
         .info-name {
           font-family: 'Syne', sans-serif;
-          font-size: 1.1rem;
-          font-weight: 600;
+          font-size: 1rem;
+          font-weight: 500;
           color: #ede9fe;
           margin: 0 0 24px;
           letter-spacing: 0.04em;
@@ -216,8 +219,9 @@ export default function Contact() {
           background: linear-gradient(90deg, #7c3aed, transparent);
           margin-bottom: 24px;
         }
+        /* ✅ FIX: font-size matched to project file's .card-tagline (10.5px) */
         .info-desc {
-          font-size: 13px;
+          font-size: 10.5px;
           line-height: 1.9;
           color: rgba(200,185,255,0.55);
           margin: 0 0 36px;
@@ -257,20 +261,23 @@ export default function Contact() {
           flex-direction: column;
           gap: 2px;
         }
+        /* ✅ FIX: font-size matched to project file's .ctag (8.5px) */
         .detail-label {
-          font-size: 9px;
+          font-size: 8.5px;
           letter-spacing: 0.25em;
           text-transform: uppercase;
           color: rgba(167,139,250,0.6);
         }
+        /* ✅ FIX: font-size matched to project file's .card-tagline (10.5px) */
         .detail-value {
-          font-size: 13px;
+          font-size: 10.5px;
           color: rgba(232,224,255,0.8);
           letter-spacing: 0.02em;
         }
 
+        /* ✅ FIX: font-size matched to project file's .ctag (8.5px) */
         .socials-label {
-          font-size: 9px;
+          font-size: 8.5px;
           letter-spacing: 0.28em;
           text-transform: uppercase;
           color: rgba(255, 255, 255, 0.5);
@@ -313,8 +320,9 @@ export default function Contact() {
           color: #ede9fe;
           margin: 0 0 6px;
         }
+        /* ✅ FIX: font-size matched to project file's .card-tagline (10.5px) */
         .form-hint {
-          font-size: 12px;
+          font-size: 10.5px;
           color: rgba(200,185,255,0.4);
           margin: 0 0 30px;
           letter-spacing: 0.03em;
@@ -338,8 +346,9 @@ export default function Contact() {
         }
         .field-wrap.no-mb { margin-bottom: 0; }
 
+        /* ✅ FIX: font-size matched to project file's .ctag (8.5px) */
         .field-label {
-          font-size: 10px;
+          font-size: 8.5px;
           letter-spacing: 0.22em;
           text-transform: uppercase;
           color: rgba(167,139,250,0.6);
@@ -387,6 +396,7 @@ export default function Contact() {
           margin-top: 24px;
           flex-wrap: wrap;
         }
+        /* ✅ FIX: font-size + letter-spacing matched to project file's .card-btn (10px / .05em) */
         .submit-btn {
           position: relative;
           padding: 14px 36px;
@@ -395,9 +405,9 @@ export default function Contact() {
           background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #4f46e5 100%);
           color: #fff;
           font-family: 'Syne', sans-serif;
-          font-size: 13px;
-          font-weight: 600;
-          letter-spacing: 0.08em;
+          font-size: 10px;
+          font-weight: 500;
+          letter-spacing: 0.05em;
           cursor: pointer;
           box-shadow:
             0 0 28px rgba(124,58,237,0.55),

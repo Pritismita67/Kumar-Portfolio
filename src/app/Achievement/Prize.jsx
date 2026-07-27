@@ -145,8 +145,9 @@ export default function Prize() {
           background: linear-gradient(90deg, transparent, #7c3aed, transparent);
           margin: 20px auto 0;
         }
+        /* ✅ FIX: opaque card background — page background/dots no longer show through */
         .glass-card {
-          background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(124,58,237,0.08) 100%);
+          background: linear-gradient(135deg, rgba(18,10,35,0.97) 0%, rgba(30,14,50,0.97) 100%);
           border: 1px solid rgba(167,139,250,0.18); border-radius: 18px;
           backdrop-filter: blur(16px) saturate(1.4);
           -webkit-backdrop-filter: blur(16px) saturate(1.4);
@@ -198,15 +199,18 @@ export default function Prize() {
         .glass-card:hover .play-badge { background: rgba(124,58,237,0.8); }
         .play-badge svg { width: 22px; height: 22px; fill: #fff; margin-left: 3px; }
         .card-body { padding: 18px 20px 20px; }
+        /* ✅ FIX: font-size matched to project file's .ctag (8.5px) */
         .card-tag {
-          font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+          font-size: 8.5px; letter-spacing: 0.28em; text-transform: uppercase;
           color: #a78bfa; margin-bottom: 6px;
         }
+        /* ✅ FIX: font-size + weight matched to project file's .card-title (1rem / 500) */
         .card-name {
-          font-family: 'Cormorant Garamond', serif; font-size: 1.25rem;
-          font-weight: 400; color: #ede9fe; margin: 0 0 4px; line-height: 1.25;
+          font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+          font-weight: 500; color: #ede9fe; margin: 0 0 4px; line-height: 1.25;
         }
-        .card-meta { font-size: 12px; color: rgba(200,185,255,0.55); letter-spacing: 0.04em; }
+        /* ✅ FIX: font-size matched to project file's .card-tagline (10.5px) */
+        .card-meta { font-size: 10.5px; color: rgba(200,185,255,0.55); letter-spacing: 0.04em; }
 
         .gallery-header { text-align: center; margin-bottom: 48px; }
         .gallery-label {

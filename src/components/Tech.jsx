@@ -322,7 +322,7 @@ function ToolCard({ tool, index, rowIndex }) {
 
       <span
         style={{
-          fontSize: '11px',
+          fontSize: '10px',
           fontFamily: "'Courier New', monospace",
           fontWeight: '600',
           letterSpacing: '0.08em',
@@ -375,13 +375,13 @@ export default function Tech() {
       >
         <span style={{
           display: 'inline-block',
-          fontSize: '11px',
-          letterSpacing: '0.25em',
+          fontSize: '10px',
+          letterSpacing: '0.18em',
           color: '#9B5DE5',
           textTransform: 'uppercase',
           marginBottom: '16px',
           border: '1px solid rgba(155,93,229,0.35)',
-          padding: '4px 16px',
+          padding: '5px 14px',
           borderRadius: '999px',
           background: 'rgba(155,93,229,0.08)',
         }}>
@@ -389,7 +389,7 @@ export default function Tech() {
         </span>
         <h2 style={{
           margin: 0,
-          fontSize: 'clamp(2rem, 5vw, 3.2rem)',
+          fontSize: 'clamp(30px, 3.6vw, 46px)',
           fontWeight: '800',
           color: '#ffffff',
           lineHeight: 1.15,
@@ -400,7 +400,7 @@ export default function Tech() {
         </h2>
         <p style={{
           margin: '12px 0 0',
-          fontSize: '15px',
+          fontSize: '11.5px',
           color: 'rgba(255,255,255,0.45)',
           letterSpacing: '0.03em',
         }}>

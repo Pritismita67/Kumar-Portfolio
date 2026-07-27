@@ -494,30 +494,31 @@ export default function Projects() {
         .pr-eyebrow { font-size: 10px; letter-spacing: .38em; text-transform: uppercase; color: #a78bfa; margin-bottom: 12px; }
         .pr-title {
           font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 300; margin: 0;
+          font-size: clamp(30px, 3.6vw, 46px); font-weight: 300; margin: 0;
           background: linear-gradient(135deg, #f0ebff 20%, #a78bfa 55%, #818cf8 100%);
           -webkit-background-clip: text; -webkit-text-fill-color: transparent;
           background-clip: text; line-height: 1.05;
         }
         .pr-divider { width: 70px; height: 1px; background: linear-gradient(90deg, transparent, #7c3aed, transparent); margin: 18px auto 0; }
         .pr-grid {
-          display: grid; grid-template-columns: repeat(3, 1fr);
-          gap: 26px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2;
+          display: grid; grid-template-columns: repeat(5, 1fr);
+          gap: 16px; max-width: 1320px; margin: 0 auto; position: relative; z-index: 2;
         }
-        @media (max-width: 980px) { .pr-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 580px) { .pr-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1180px) { .pr-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 980px) { .pr-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 680px) { .pr-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+        @media (max-width: 420px) { .pr-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
         .pr-card {
-          display: flex; flex-direction: column; border-radius: 20px; overflow: hidden;
+          display: flex; flex-direction: column; border-radius: 14px; overflow: hidden;
           border: 1px solid rgba(167,139,250,0.14);
-          background: linear-gradient(160deg, rgba(255,255,255,0.055) 0%, rgba(124,58,237,0.06) 100%);
-          backdrop-filter: blur(18px) saturate(1.3); -webkit-backdrop-filter: blur(18px) saturate(1.3);
+          background: linear-gradient(160deg, rgba(14,8,28,0.98) 0%, rgba(10,5,20,0.98) 100%);
           box-shadow: 0 8px 40px rgba(0,0,0,0.45), 0 0 0 0.5px rgba(167,139,250,0.07) inset;
           cursor: pointer;
           transition: transform 0.38s cubic-bezier(.22,1,.36,1), border-color 0.3s, box-shadow 0.38s;
           animation: cardUp 0.65s cubic-bezier(.22,1,.36,1) both;
         }
         .pr-card:hover {
-          transform: translateY(-9px) scale(1.012);
+          transform: translateY(-7px) scale(1.012);
           border-color: rgba(167,139,250,0.4);
           box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(167,139,250,0.22) inset, 0 0 90px rgba(124,58,237,0.11);
         }
@@ -543,25 +544,28 @@ export default function Projects() {
           color: rgba(255,255,255,0.55); text-shadow: 0 2px 12px rgba(0,0,0,0.6);
         }
         .card-cat-badge {
-          position: absolute; top: 12px; right: 14px; z-index: 2;
-          font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
-          color: rgba(232,224,255,0.85); background: rgba(20,10,40,0.65);
-          border: 1px solid rgba(167,139,250,0.25); border-radius: 999px; padding: 4px 10px;
-          backdrop-filter: blur(8px);
+          position: absolute; top: 8px; right: 8px; z-index: 2;
+          font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase;
+          color: rgba(232,224,255,0.85); background: rgba(20,10,40,0.9);
+          border: 1px solid rgba(167,139,250,0.25); border-radius: 999px; padding: 3px 7px;
+          max-width: calc(100% - 16px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-        .card-body { padding: 22px 22px 20px; display: flex; flex-direction: column; flex: 1; }
-        .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: #ede9fe; margin: 0 0 7px; line-height: 1.2; }
-        .card-tagline { font-size: 12.5px; color: rgba(200,185,255,0.5); line-height: 1.65; margin: 0 0 16px; flex: 1; }
-        .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
-        .ctag { font-size: 10px; letter-spacing: .1em; color: rgba(167,139,250,0.65); background: rgba(124,58,237,0.09); border: 1px solid rgba(167,139,250,0.18); border-radius: 6px; padding: 3px 9px; }
+        .card-body { padding: 12px 12px 12px; display: flex; flex-direction: column; flex: 1; }
+        .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 500; color: #ede9fe; margin: 0 0 4px; line-height: 1.2; }
+        .card-tagline {
+          font-size: 10.5px; color: rgba(200,185,255,0.5); line-height: 1.5; margin: 0 0 10px; flex: 1;
+          display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+        .ctag { font-size: 8.5px; letter-spacing: .06em; color: rgba(167,139,250,0.65); background: rgba(124,58,237,0.14); border: 1px solid rgba(167,139,250,0.18); border-radius: 5px; padding: 2px 6px; }
         .card-btn {
-          display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px;
-          border: 1px solid rgba(167,139,250,0.25); background: rgba(255,255,255,0.04);
-          color: rgba(200,185,255,0.85); font-family: 'Syne', sans-serif; font-size: 12px;
-          font-weight: 500; letter-spacing: .06em; cursor: pointer; transition: all 0.25s ease;
-          width: fit-content; backdrop-filter: blur(8px); margin-top: auto;
+          display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px;
+          border: 1px solid rgba(167,139,250,0.25); background: rgba(255,255,255,0.06);
+          color: rgba(200,185,255,0.85); font-family: 'Syne', sans-serif; font-size: 10px;
+          font-weight: 500; letter-spacing: .05em; cursor: pointer; transition: all 0.25s ease;
+          width: fit-content; margin-top: auto;
         }
-        .card-btn:hover { border-color: rgba(167,139,250,0.55); background: rgba(124,58,237,0.18); color: #fff; transform: translateX(3px); box-shadow: 0 0 20px rgba(124,58,237,0.25); }
+        .card-btn:hover { border-color: rgba(167,139,250,0.55); background: rgba(124,58,237,0.28); color: #fff; transform: translateX(3px); box-shadow: 0 0 20px rgba(124,58,237,0.25); }
         .btn-arrow { transition: transform 0.25s; display: inline-block; }
         .card-btn:hover .btn-arrow { transform: translateX(4px); }
 
@@ -575,8 +579,7 @@ export default function Projects() {
         @keyframes bfIn { from { opacity: 0 } to { opacity: 1 } }
         @keyframes mPop { from { transform: scale(0.94) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
         .modal-box {
-          position: relative; width: 100%; background: rgba(8, 4, 22, 0.92);
-          backdrop-filter: blur(28px) saturate(1.6); -webkit-backdrop-filter: blur(28px) saturate(1.6);
+          position: relative; width: 100%; background: rgba(8, 4, 22, 0.98);
           border-radius: 22px; overflow: hidden; display: flex; flex-direction: column;
           max-height: calc(100vh - 104px);
         }
@@ -640,26 +643,26 @@ export default function Projects() {
         .modal-content::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.35); border-radius: 99px; }
         @media (max-width: 600px) { .modal-content { padding: 16px 16px 22px; } .modal-gallery { height: 42vh; } .modal-backdrop { padding: 70px 10px 16px; } }
         .modal-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-        .mbadge { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; border: 0.5px solid rgba(167,139,250,0.3); background: rgba(124,58,237,0.12); color: rgba(167,139,250,0.9); }
+        .mbadge { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; border: 0.5px solid rgba(167,139,250,0.3); background: rgba(124,58,237,0.14); color: rgba(167,139,250,0.9); }
         .mdot { color: rgba(167,139,250,0.25); font-size: 10px; }
         .myear { font-size: 11px; color: rgba(167,139,250,0.45); letter-spacing: .12em; }
-        .mstatus { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; background: rgba(16,185,129,0.08); border: 0.5px solid rgba(16,185,129,0.3); color: #6ee7b7; }
+        .mstatus { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; background: rgba(16,185,129,0.12); border: 0.5px solid rgba(16,185,129,0.3); color: #6ee7b7; }
         .modal-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.7rem, 4vw, 2.5rem); font-weight: 400; color: #ede9fe; margin: 0 0 6px; line-height: 1.1; }
         .modal-tagline { font-size: 13px; color: rgba(200,185,255,0.42); margin: 0 0 18px; line-height: 1.65; }
         .modal-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
-        .mtag { font-size: 10.5px; letter-spacing: .08em; color: rgba(167,139,250,0.7); background: rgba(124,58,237,0.08); border: 0.5px solid rgba(167,139,250,0.18); border-radius: 7px; padding: 4px 11px; }
-        .modal-overview { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(167,139,250,0.12); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; }
+        .mtag { font-size: 10.5px; letter-spacing: .08em; color: rgba(167,139,250,0.7); background: rgba(124,58,237,0.12); border: 0.5px solid rgba(167,139,250,0.18); border-radius: 7px; padding: 4px 11px; }
+        .modal-overview { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(167,139,250,0.12); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; }
         .sec-label { font-size: 8.5px; letter-spacing: .3em; text-transform: uppercase; color: rgba(167,139,250,0.7); margin-bottom: 8px; }
         .sec-text { font-size: 13px; line-height: 1.9; color: rgba(200,185,255,0.55); }
         .modal-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
         @media (max-width: 620px) { .modal-2col { grid-template-columns: 1fr; } }
-        .modal-section { background: rgba(255,255,255,0.025); border: 0.5px solid rgba(167,139,250,0.1); border-radius: 12px; padding: 16px 18px; }
+        .modal-section { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(167,139,250,0.1); border-radius: 12px; padding: 16px 18px; }
         .modal-cta { display: flex; gap: 12px; flex-wrap: wrap; }
         .cta-a { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 999px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .07em; text-decoration: none; transition: all 0.25s; cursor: pointer; }
-        .cta-primary { background: rgba(124,58,237,0.7); color: #fff; border: 0.5px solid rgba(167,139,250,0.5); backdrop-filter: blur(10px); box-shadow: 0 0 18px rgba(124,58,237,0.35), inset 0 0 0 0.5px rgba(255,255,255,0.08); }
-        .cta-primary:hover { transform: translateY(-2px); background: rgba(124,58,237,0.85); box-shadow: 0 0 32px rgba(124,58,237,0.55), inset 0 0 0 0.5px rgba(255,255,255,0.12); }
-        .cta-ghost { background: rgba(255,255,255,0.04); color: rgba(200,185,255,.75); border: 0.5px solid rgba(167,139,250,.2); backdrop-filter: blur(8px); }
-        .cta-ghost:hover { border-color: rgba(167,139,250,.5); background: rgba(124,58,237,.12); color: #fff; transform: translateY(-2px); box-shadow: 0 0 16px rgba(124,58,237,0.2); }
+        .cta-primary { background: rgba(124,58,237,0.85); color: #fff; border: 0.5px solid rgba(167,139,250,0.5); box-shadow: 0 0 18px rgba(124,58,237,0.35), inset 0 0 0 0.5px rgba(255,255,255,0.08); }
+        .cta-primary:hover { transform: translateY(-2px); background: rgba(124,58,237,0.95); box-shadow: 0 0 32px rgba(124,58,237,0.55), inset 0 0 0 0.5px rgba(255,255,255,0.12); }
+        .cta-ghost { background: rgba(255,255,255,0.06); color: rgba(200,185,255,.75); border: 0.5px solid rgba(167,139,250,.2); }
+        .cta-ghost:hover { border-color: rgba(167,139,250,.5); background: rgba(124,58,237,.18); color: #fff; transform: translateY(-2px); box-shadow: 0 0 16px rgba(124,58,237,0.2); }
 
         /* ── LIGHTBOX ── */
         .lb-backdrop {
@@ -764,7 +767,7 @@ export default function Projects() {
             >
               <div
                 className="card-img-wrap"
-                style={{ aspectRatio: p.type === "mobile" ? "9/16" : p.type === "pdf" ? "3/4" : "16/9" }}
+                style={{ aspectRatio: p.type === "mobile" ? "3/4" : p.type === "pdf" ? "3/4" : "16/9" }}
               >
                 <div className="card-img-accent" style={{ background: `linear-gradient(90deg, ${p.color}, transparent)` }} />
                 <div className="card-img-scale">
@@ -772,7 +775,7 @@ export default function Projects() {
                     src={p.coverImage}
                     alt={p.title}
                     fill
-                    sizes="(max-width: 580px) 100vw, (max-width: 980px) 50vw, 33vw"
+                    sizes="(max-width: 420px) 50vw, (max-width: 680px) 50vw, (max-width: 980px) 33vw, (max-width: 1180px) 25vw, 20vw"
                     style={{ objectFit: "cover" }}
                     priority={i < 3}
                     onError={() => {}}
@@ -786,8 +789,8 @@ export default function Projects() {
                 <h2 className="card-title">{p.title}</h2>
                 <p className="card-tagline">{p.tagline}</p>
                 <div className="card-tags">
-                  {p.tags.slice(0, 3).map((t) => <span key={t} className="ctag">{t}</span>)}
-                  {p.tags.length > 3 && <span className="ctag">+{p.tags.length - 3}</span>}
+                  {p.tags.slice(0, 2).map((t) => <span key={t} className="ctag">{t}</span>)}
+                  {p.tags.length > 2 && <span className="ctag">+{p.tags.length - 2}</span>}
                 </div>
                 <button className="card-btn" onClick={(e) => { e.stopPropagation(); openModal(p); }}>
                   View Details <span className="btn-arrow">→</span>

@@ -71,7 +71,7 @@ export default function HeroSplit() {
       gsap.set('.line-white .split-char', { opacity: 0, y: 70, rotateX: -80, filter: 'blur(6px)' })
       gsap.set('.line-gradient .split-char', { opacity: 0, y: 90, rotateX: -80, filter: 'blur(8px)' })
       gsap.set('.role-badge', { opacity: 0, y: 24, filter: 'blur(8px)' })
-      gsap.set('.hero-desc', { opacity: 0, y: 28, filter: 'blur(4px)' })
+      gsap.set('.hero-desc-panel', { opacity: 0, y: 28, filter: 'blur(4px)' })
       gsap.set('.glass-expertise', { opacity: 0, y: 36 })
       gsap.set('.expertise-tag', { opacity: 0, scale: 0.82, y: 10 })
       gsap.set('.photo-frame', { opacity: 0, x: 70, filter: 'blur(14px)' })
@@ -96,7 +96,7 @@ export default function HeroSplit() {
         duration: 0.85,
         stagger: { each: 0.04, from: 'start' },
       }, '-=0.55')
-      .to('.hero-desc', {
+      .to('.hero-desc-panel', {
         opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9
       }, '-=0.4')
       .to('.glass-expertise', {
@@ -161,11 +161,14 @@ export default function HeroSplit() {
 
         /* ── HERO ── */
         .hero-wrapper {
+          height: 100vh;
           min-height: 100vh;
+          max-height: 100vh;
+          overflow: hidden;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 100px 5vw 60px;
+          padding: 84px 5vw 28px;
           box-sizing: border-box;
           font-family: 'Syne', sans-serif;
           position: relative;
@@ -173,15 +176,15 @@ export default function HeroSplit() {
 
         .hero-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 52px;
-          max-width: 1200px;
+          grid-template-columns: 1.05fr 0.95fr;
+          gap: 40px;
+          max-width: 1180px;
           width: 100%;
           align-items: center;
         }
 
         /* ── LEFT ── */
-        .left-panel { display: flex; flex-direction: column; gap: 26px; }
+        .left-panel { display: flex; flex-direction: column; gap: 16px; }
 
         .role-badge {
           display: inline-flex;
@@ -190,13 +193,13 @@ export default function HeroSplit() {
           background: rgba(139, 92, 246, 0.12);
           border: 1px solid rgba(139, 92, 246, 0.35);
           border-radius: 999px;
-          padding: 6px 16px;
+          padding: 5px 14px;
           width: fit-content;
           backdrop-filter: blur(8px);
         }
 
         .role-dot {
-          width: 7px; height: 7px; border-radius: 50%;
+          width: 6px; height: 6px; border-radius: 50%;
           background: #a78bfa; box-shadow: 0 0 8px #a78bfa;
           animation: pulse-dot 2s ease-in-out infinite;
         }
@@ -208,16 +211,16 @@ export default function HeroSplit() {
 
         .role-text {
           font-family: 'DM Mono', monospace;
-          font-size: 11px; letter-spacing: 0.18em;
+          font-size: 10px; letter-spacing: 0.18em;
           color: #c4b5fd; text-transform: uppercase;
         }
 
         /* ── HEADLINE ── */
-        .hero-headline { line-height: 1.05; perspective: 900px; }
+        .hero-headline { line-height: 1.04; perspective: 900px; }
 
         .line-white {
           display: block;
-          font-size: clamp(42px, 5vw, 64px);
+          font-size: clamp(30px, 3.6vw, 46px);
           font-weight: 800; color: #ffffff;
           letter-spacing: -0.02em;
           font-family: 'Syne', sans-serif;
@@ -225,7 +228,7 @@ export default function HeroSplit() {
 
         .line-gradient {
           display: block;
-          font-size: clamp(42px, 5vw, 64px);
+          font-size: clamp(30px, 3.6vw, 46px);
           font-weight: 800; letter-spacing: -0.02em;
           font-family: 'Syne', sans-serif;
         }
@@ -243,45 +246,62 @@ export default function HeroSplit() {
           will-change: transform, opacity, filter;
         }
 
-        /* ── DESCRIPTION ── */
-        .hero-desc {
-          font-family: 'DM Mono', monospace;
-          font-size: 13px; line-height: 1.8;
-          color: rgba(203, 213, 225, 0.72);
-          max-width: 480px; font-weight: 300;
+        /* ── DESCRIPTION PANEL ──
+           Solid frosted glass so the animated background tech icons
+           never show through behind the paragraph text. */
+        .hero-desc-panel {
+          position: relative;
+          background: rgba(8, 4, 16, 0.97);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 16px;
+          padding: 14px 18px;
+          max-width: 480px;
+          backdrop-filter: blur(22px) saturate(140%);
+          -webkit-backdrop-filter: blur(22px) saturate(140%);
+          box-shadow: 0 4px 28px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
         }
 
-        /* ── GLASS EXPERTISE ── */
+        .hero-desc {
+          font-family: 'DM Mono', monospace;
+          font-size: 11.5px; line-height: 1.65;
+          color: rgba(203, 213, 225, 0.82);
+          font-weight: 300;
+          margin: 0;
+        }
+
+        /* ── GLASS EXPERTISE ──
+           Darker + stronger blur so background icons are fully hidden. */
         .glass-expertise {
-          background: rgba(255,255,255,0.035);
-          border: 1px solid rgba(255,255,255,0.09);
-          border-radius: 20px; padding: 22px 26px;
-          backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-          box-shadow: 0 4px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+          background: rgba(8, 4, 16, 0.97);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px; padding: 16px 20px;
+          backdrop-filter: blur(24px) saturate(140%);
+          -webkit-backdrop-filter: blur(24px) saturate(140%);
+          box-shadow: 0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
         }
 
         .expertise-title {
           font-family: 'DM Mono', monospace;
-          font-size: 10px; letter-spacing: 0.2em;
-          color: #7c3aed; text-transform: uppercase;
-          margin-bottom: 14px; margin-top: 0;
+          font-size: 9.5px; letter-spacing: 0.2em;
+          color: #a78bfa; text-transform: uppercase;
+          margin-bottom: 10px; margin-top: 0;
         }
 
-        .expertise-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .expertise-grid { display: flex; flex-wrap: wrap; gap: 7px; }
 
         .expertise-tag {
           font-family: 'DM Mono', monospace;
-          font-size: 11px; font-weight: 300; color: #c4b5fd;
-          background: rgba(139,92,246,0.1);
-          border: 1px solid rgba(139,92,246,0.25);
-          border-radius: 999px; padding: 4px 13px;
+          font-size: 10px; font-weight: 300; color: #c4b5fd;
+          background: rgba(139,92,246,0.14);
+          border: 1px solid rgba(139,92,246,0.28);
+          border-radius: 999px; padding: 4px 11px;
           white-space: nowrap;
           transition: background 0.25s, border-color 0.25s, color 0.25s;
           cursor: default;
         }
 
         .expertise-tag:hover {
-          background: rgba(139,92,246,0.22);
+          background: rgba(139,92,246,0.24);
           border-color: rgba(167,139,250,0.55);
           color: #e9d5ff;
         }
@@ -294,7 +314,7 @@ export default function HeroSplit() {
 
         .photo-frame {
           position: relative;
-          width: clamp(240px, 26vw, 360px);
+          width: clamp(200px, 21vw, 300px);
           aspect-ratio: 3/4;
         }
 
@@ -313,7 +333,7 @@ export default function HeroSplit() {
 
         .photo-frame::after {
           content: ''; position: absolute;
-          top: -2px; right: -2px; width: 64px; height: 64px;
+          top: -2px; right: -2px; width: 56px; height: 56px;
           border-top: 2px solid rgba(167,139,250,0.7);
           border-right: 2px solid rgba(167,139,250,0.7);
           border-radius: 0 20px 0 0; z-index: 3;
@@ -322,7 +342,7 @@ export default function HeroSplit() {
         .photo-glass-card {
           position: relative; z-index: 2;
           width: 100%; height: 100%; border-radius: 28px; overflow: hidden;
-          background: rgba(255,255,255,0.04);
+          background: rgba(8, 4, 16, 0.97);
           border: 1px solid rgba(255,255,255,0.1);
           backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
           box-shadow: 0 8px 48px rgba(0,0,0,0.5),
@@ -347,7 +367,7 @@ export default function HeroSplit() {
 
         .corner-bl {
           position: absolute; bottom: -2px; left: -2px;
-          width: 50px; height: 50px;
+          width: 44px; height: 44px;
           border-bottom: 2px solid rgba(99,102,241,0.5);
           border-left: 2px solid rgba(99,102,241,0.5);
           border-radius: 0 0 0 20px; z-index: 3;
@@ -355,20 +375,20 @@ export default function HeroSplit() {
 
         .stat-chip {
           position: absolute; display: flex; flex-direction: column;
-          align-items: center; background: rgba(15,10,30,0.72);
+          align-items: center; background: rgba(8, 4, 16, 0.97);
           border: 1px solid rgba(167,139,250,0.25);
-          border-radius: 14px; padding: 10px 16px;
+          border-radius: 14px; padding: 8px 14px;
           backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
           box-shadow: 0 4px 20px rgba(0,0,0,0.4); z-index: 4;
         }
 
         .chip-top-right {
-          top: 22px; right: -44px;
+          top: 16px; right: -36px;
           animation: float-chip 3.5s ease-in-out infinite;
         }
 
         .chip-bottom-left {
-          bottom: 30px; left: -48px;
+          bottom: 22px; left: -40px;
           animation: float-chip 3.5s ease-in-out 1.8s infinite;
         }
 
@@ -379,39 +399,39 @@ export default function HeroSplit() {
 
         .chip-number {
           font-family: 'Syne', sans-serif;
-          font-size: 20px; font-weight: 800; color: #a78bfa; line-height: 1;
+          font-size: 17px; font-weight: 800; color: #a78bfa; line-height: 1;
         }
 
         .chip-label {
-          font-family: 'DM Mono', monospace; font-size: 9px;
+          font-family: 'DM Mono', monospace; font-size: 8px;
           letter-spacing: 0.12em; color: rgba(203,213,225,0.6);
           text-transform: uppercase; margin-top: 3px; white-space: nowrap;
         }
 
         /* ── SCROLL HINT ── */
         .scroll-hint {
-          position: absolute; bottom: 36px; left: 50%;
+          position: absolute; bottom: 18px; left: 50%;
           transform: translateX(-50%);
           display: flex; flex-direction: column;
-          align-items: center; gap: 8px;
+          align-items: center; gap: 6px;
           z-index: 20; pointer-events: none;
         }
 
         .hand-wrap {
           position: relative; display: flex;
           align-items: center; justify-content: center;
-          width: 44px; height: 60px;
+          width: 40px; height: 52px;
         }
 
         .hand-svg {
-          width: 32px; color: rgba(167,139,250,0.7);
+          width: 28px; color: rgba(167,139,250,0.7);
           animation: hand-bob 2.2s ease-in-out infinite;
           filter: drop-shadow(0 0 6px rgba(139,92,246,0.4));
         }
 
         .hand-arrow {
           position: absolute; bottom: -4px; left: 50%;
-          transform: translateX(-50%); width: 12px;
+          transform: translateX(-50%); width: 11px;
           color: rgba(99,102,241,0.6);
           animation: arrow-pulse 2.2s ease-in-out infinite;
         }
@@ -427,19 +447,20 @@ export default function HeroSplit() {
         }
 
         .hint-label {
-          font-family: 'DM Mono', monospace; font-size: 9px;
+          font-family: 'DM Mono', monospace; font-size: 8px;
           letter-spacing: 0.25em; color: rgba(167,139,250,0.5);
           text-transform: uppercase;
         }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 860px) {
+          .hero-wrapper { height: auto; min-height: 100vh; max-height: none; overflow: visible; }
           .hero-grid { grid-template-columns: 1fr; }
           .right-panel { order: -1; }
-          .photo-frame { width: 200px; aspect-ratio: 1/1; }
-          .chip-top-right { right: -28px; }
-          .chip-bottom-left { left: -32px; }
-          .scroll-hint { bottom: 20px; }
+          .photo-frame { width: 180px; aspect-ratio: 1/1; }
+          .chip-top-right { right: -24px; }
+          .chip-bottom-left { left: -28px; }
+          .scroll-hint { bottom: 14px; }
         }
       `}</style>
 
@@ -465,14 +486,16 @@ export default function HeroSplit() {
               <SplitText text="Kumar" className="line-gradient" />
             </div>
 
-            <p className="hero-desc">
-              Focused on crafting intuitive, visually engaging, and user-centered
-              digital experiences. Passionate about transforming ideas into clean,
-              functional, and impactful designs that enhance usability and
-              strengthen brand identity — across web and mobile platforms.
-              Dedicated to continuous learning, creative problem-solving, and
-              contributing to innovative design-driven teams.
-            </p>
+            <div className="hero-desc-panel">
+              <p className="hero-desc">
+                Focused on crafting intuitive, visually engaging, and user-centered
+                digital experiences. Passionate about transforming ideas into clean,
+                functional, and impactful designs that enhance usability and
+                strengthen brand identity — across web and mobile platforms.
+                Dedicated to continuous learning, creative problem-solving, and
+                contributing to innovative design-driven teams.
+              </p>
+            </div>
 
             <div className="glass-expertise">
               <p className="expertise-title">Core Expertise</p>

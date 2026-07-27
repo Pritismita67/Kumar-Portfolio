@@ -166,7 +166,7 @@ export default function Security() {
           left: 0;
           white-space: nowrap;
           font-family: 'DM Mono', monospace;
-          font-size: 11px;
+          font-size: 10px;
           font-weight: 300;
           letter-spacing: 0.07em;
           color: rgba(180,160,255,0.9);
@@ -212,7 +212,7 @@ export default function Security() {
 
         .sec-title {
           font-family: 'Syne', sans-serif;
-          font-size: clamp(24px, 4vw, 50px);
+          font-size: clamp(30px, 3.6vw, 46px);
           font-weight: 800;
           color: #f0eaff;
           letter-spacing: -0.02em;
@@ -326,13 +326,13 @@ export default function Security() {
         .sec-sub {
           margin-top: 44px;
           font-family: 'DM Mono', monospace;
-          font-size: 12px;
+          font-size: 11.5px;
           font-weight: 300;
           color: rgba(203,213,225,0.36);
           letter-spacing: 0.06em;
           text-align: center;
           max-width: 440px;
-          line-height: 1.9;
+          line-height: 1.65;
         }
       `}</style>
 

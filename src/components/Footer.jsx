@@ -80,7 +80,7 @@ export default function Footer() {
         .ft-glass {
           margin: 48px 5vw 40px;
           border-radius: 28px;
-          background: rgba(255,255,255,0.03);
+          background: rgba(8, 4, 16, 0.97);
           border: 1px solid rgba(255,255,255,0.08);
           backdrop-filter: blur(24px);
           -webkit-backdrop-filter: blur(24px);
@@ -142,11 +142,11 @@ export default function Footer() {
 
         .ft-logo {
           font-family: 'Syne', sans-serif;
-          font-size: 28px;
+          font-size: clamp(30px, 3.6vw, 46px);
           font-weight: 800;
           letter-spacing: -0.02em;
           margin: 0 0 8px 0;
-          line-height: 1;
+          line-height: 1.08;
         }
 
         .ft-logo-white { color: #f0eaff; }
@@ -159,7 +159,7 @@ export default function Footer() {
 
         .ft-tagline {
           font-family: 'DM Mono', monospace;
-          font-size: 11px;
+          font-size: 11.5px;
           font-weight: 300;
           color: rgba(203,213,225,0.4);
           letter-spacing: 0.1em;
@@ -178,7 +178,7 @@ export default function Footer() {
           height: 44px;
           border-radius: 13px;
           border: 1px solid rgba(255,255,255,0.1);
-          background: rgba(255,255,255,0.04);
+          background: rgba(10, 6, 20, 0.95);
           backdrop-filter: blur(8px);
           display: flex;
           align-items: center;
@@ -209,7 +209,7 @@ export default function Footer() {
           align-items: center;
           gap: 12px;
           padding: 18px 22px;
-          background: rgba(139,92,246,0.07);
+          background: rgba(20, 12, 34, 0.95);
           border: 1px solid rgba(139,92,246,0.18);
           border-radius: 14px;
           width: fit-content;
@@ -231,7 +231,7 @@ export default function Footer() {
 
         .ft-email-text {
           font-family: 'DM Mono', monospace;
-          font-size: 13px;
+          font-size: 13.5px;
           font-weight: 400;
           color: #c4b5fd;
           letter-spacing: 0.04em;
@@ -247,7 +247,7 @@ export default function Footer() {
 
         .ft-nav-link {
           font-family: 'DM Mono', monospace;
-          font-size: 11.5px;
+          font-size: 10.5px;
           font-weight: 300;
           color: rgba(203,213,225,0.45);
           letter-spacing: 0.1em;
@@ -271,7 +271,7 @@ export default function Footer() {
 
         .ft-copy {
           font-family: 'DM Mono', monospace;
-          font-size: 10.5px;
+          font-size: 10px;
           font-weight: 300;
           color: rgba(203,213,225,0.28);
           letter-spacing: 0.08em;
@@ -281,7 +281,7 @@ export default function Footer() {
 
         .ft-made {
           font-family: 'DM Mono', monospace;
-          font-size: 10.5px;
+          font-size: 10px;
           font-weight: 300;
           color: rgba(203,213,225,0.25);
           letter-spacing: 0.06em;
