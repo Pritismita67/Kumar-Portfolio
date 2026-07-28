@@ -33,7 +33,7 @@ const HERO_PROJECT = {
     { label: "Category", value: "Environment Art" },
     { label: "Status", value: "Live" },
   ],
-  demoUrl: "https://www.linkedin.com/in/your-profile/recent-activity/all/",
+  demoUrl: "https://www.linkedin.com/posts/pritish-kumar-sahoo-69754a311_unrealengine-unrealengine5-environmentart-ugcPost-7481959895974461440-aact/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE9H11MBR0BieR1EQKCgbD5Q2LbLFqOoTqc",
   color: "#8b7bff",
   colorAlt: "#5ac8ff",
 };
