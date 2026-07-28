@@ -516,7 +516,7 @@ export default function HeroSplit() {
               </div>
               <div className="corner-bl" />
               <div className="stat-chip chip-top-right">
-                <span className="chip-number">4+</span>
+                <span className="chip-number">2.5+</span>
                 <span className="chip-label">Yrs Exp</span>
               </div>
               <div className="stat-chip chip-bottom-left">
