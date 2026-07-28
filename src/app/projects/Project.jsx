@@ -1,7 +1,342 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
+
+/* ─────────────────────────────────────────────────────────────────
+   HERO PROJECT — Unreal Engine 5
+   This is the single featured project. Everything below it (PROJECTS)
+   renders in the normal grid, unchanged.
+   ───────────────────────────────────────────────────────────────── */
+const HERO_PROJECT = {
+  title: "Mountain Escape",
+  titleAccent: "Real-Time Environment",
+  tagline:
+    "A cinematic Unreal Engine 5 environment showcasing real-time rendering, immersive landscapes, dynamic lighting, and environment design.",
+  category: "Real-Time 3D Environment",
+  year: "2026",
+  status: "Live",
+  engine: "Unreal Engine 5",
+  rendering: "Lumen · Nanite",
+  coverImage: "/mountain.png",
+ 
+  tech: ["Unreal Engine 5", "Nanite", "Lumen", "Landscape", "Foliage", "Lighting", "Cinematics"],
+  overview:
+    "A fully real-time UE5 environment blending large-scale terrain, dense foliage, and volumetric atmosphere — no baked lighting, no pre-rendered tricks.",
+  challenge:
+    "Keeping a vast landscape performant in real time without losing cinematic scale or atmosphere.",
+  solution:
+    "Nanite micro-geometry + Lumen dynamic GI, tuned foliage and fog, captured through Sequencer.",
+  stats: [
+    { label: "Engine", value: "Unreal Engine 5" },
+    { label: "Rendering", value: "Lumen + Nanite" },
+    { label: "Category", value: "Environment Art" },
+    { label: "Status", value: "Live" },
+  ],
+  demoUrl: "https://www.linkedin.com/in/your-profile/recent-activity/all/",
+  color: "#8b7bff",
+  colorAlt: "#5ac8ff",
+};
+
+/* ─── Reusable animated glowing border (traces the card perimeter) ── */
+function TravellingBorder({ color, colorAlt, width, height, radius = 22 }) {
+  const canvasRef = useRef(null);
+  const rafRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const straight = 2 * (width - 2 * radius) + 2 * (height - 2 * radius);
+    const curves = 2 * Math.PI * radius;
+    const perimeter = straight + curves;
+    let progress = 0;
+
+    function rrPath() {
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(width - radius, 0);
+      ctx.arcTo(width, 0, width, radius, radius);
+      ctx.lineTo(width, height - radius);
+      ctx.arcTo(width, height, width - radius, height, radius);
+      ctx.lineTo(radius, height);
+      ctx.arcTo(0, height, 0, height - radius, radius);
+      ctx.lineTo(0, radius);
+      ctx.arcTo(0, 0, radius, 0, radius);
+      ctx.closePath();
+    }
+
+    function pointAt(d) {
+      d = ((d % perimeter) + perimeter) % perimeter;
+      const segTop = width - 2 * radius;
+      const arcLen = (Math.PI / 2) * radius;
+      const segRight = height - 2 * radius;
+      const segBot = width - 2 * radius;
+      const segLeft = height - 2 * radius;
+      let rem = d;
+      if (rem < segTop) return { x: radius + rem, y: 0 };
+      rem -= segTop;
+      if (rem < arcLen) { const a = -Math.PI / 2 + (rem / radius); return { x: width - radius + Math.cos(a) * radius, y: radius + Math.sin(a) * radius }; }
+      rem -= arcLen;
+      if (rem < segRight) return { x: width, y: radius + rem };
+      rem -= segRight;
+      if (rem < arcLen) { const a = 0 + (rem / radius); return { x: width - radius + Math.cos(a) * radius, y: height - radius + Math.sin(a) * radius }; }
+      rem -= arcLen;
+      if (rem < segBot) return { x: width - radius - rem, y: height };
+      rem -= segBot;
+      if (rem < arcLen) { const a = Math.PI / 2 + (rem / radius); return { x: radius + Math.cos(a) * radius, y: height - radius + Math.sin(a) * radius }; }
+      rem -= arcLen;
+      if (rem < segLeft) return { x: 0, y: height - radius - rem };
+      rem -= segLeft;
+      const a = Math.PI + (rem / radius);
+      return { x: radius + Math.cos(a) * radius, y: radius + Math.sin(a) * radius };
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      rrPath();
+      ctx.strokeStyle = "rgba(139,123,255,0.18)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      const tailCount = 46;
+      const tailLen = perimeter * 0.16;
+      for (let i = 0; i <= tailCount; i++) {
+        const t = i / tailCount;
+        const dist = progress - (1 - t) * tailLen;
+        const pt = pointAt(dist);
+        const alpha = t * t;
+        const r = t * 2.6 + 0.6;
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+        if (i === tailCount) {
+          ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        } else {
+          const useAlt = t > 0.5;
+          const base = useAlt ? colorAlt : color;
+          const hex = Math.round(alpha * 0.95 * 255).toString(16).padStart(2, "0");
+          ctx.fillStyle = `${base}${hex}`;
+        }
+        ctx.fill();
+      }
+      const tip = pointAt(progress);
+      const grd = ctx.createRadialGradient(tip.x, tip.y, 0, tip.x, tip.y, 18);
+      grd.addColorStop(0, `${colorAlt}aa`);
+      grd.addColorStop(1, `${colorAlt}00`);
+      ctx.beginPath();
+      ctx.arc(tip.x, tip.y, 18, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+      progress = (progress + perimeter / 260) % perimeter;
+      rafRef.current = requestAnimationFrame(draw);
+    }
+
+    rafRef.current = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [color, colorAlt, width, height, radius]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={width}
+      height={height}
+      style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 3, borderRadius: radius }}
+    />
+  );
+}
+
+/* ─── Hero Project — cinematic featured section ──────────────────── */
+function HeroProject({ data }) {
+  const wrapRef = useRef(null);
+  const [size, setSize] = useState({ w: 0, h: 0 });
+  const [spot, setSpot] = useState({ x: 50, y: 50 });
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [particles, setParticles] = useState([]);
+  const [ripples, setRipples] = useState([]);
+  const [videoOk, setVideoOk] = useState(true);
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 26 }, (_, i) => ({
+        id: i,
+        left: `${Math.random() * 100}%`,
+        size: Math.random() * 3 + 1.5,
+        dur: `${9 + Math.random() * 10}s`,
+        delay: `${Math.random() * 8}s`,
+        drift: `${(Math.random() - 0.5) * 60}px`,
+        hue: Math.random() > 0.5 ? data.color : data.colorAlt,
+      }))
+    );
+  }, [data.color, data.colorAlt]);
+
+  useEffect(() => {
+    if (!wrapRef.current) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setSize({ w: Math.round(entry.contentRect.width), h: Math.round(entry.contentRect.height) });
+    });
+    ro.observe(wrapRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  const onMouseMove = useCallback((e) => {
+    const rect = wrapRef.current.getBoundingClientRect();
+    const px = ((e.clientX - rect.left) / rect.width) * 100;
+    const py = ((e.clientY - rect.top) / rect.height) * 100;
+    setSpot({ x: px, y: py });
+    setTilt({ x: (px - 50) / 50, y: (py - 50) / 50 });
+  }, []);
+
+  const onMouseLeave = useCallback(() => {
+    setSpot({ x: 50, y: 50 });
+    setTilt({ x: 0, y: 0 });
+  }, []);
+
+  const spawnRipple = (e) => {
+    const btn = e.currentTarget;
+    const rect = btn.getBoundingClientRect();
+    const id = Date.now();
+    const ripple = { id, x: e.clientX - rect.left, y: e.clientY - rect.top };
+    setRipples((r) => [...r, ripple]);
+    setTimeout(() => setRipples((r) => r.filter((rp) => rp.id !== id)), 650);
+  };
+
+  return (
+    <section className="hero-section">
+      <div
+        ref={wrapRef}
+        className="hero-card"
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        style={{
+          "--spot-x": `${spot.x}%`,
+          "--spot-y": `${spot.y}%`,
+          "--tilt-x": tilt.x,
+          "--tilt-y": tilt.y,
+          "--c1": data.color,
+          "--c2": data.colorAlt,
+        }}
+      >
+        {size.w > 0 && size.h > 0 && (
+          <TravellingBorder color={data.color} colorAlt={data.colorAlt} width={size.w} height={size.h} radius={28} />
+        )}
+
+        <div className="hero-spotlight" />
+
+        <div className="hero-particles">
+          {particles.map((p) => (
+            <span
+              key={p.id}
+              className="hero-particle"
+              style={{
+                left: p.left,
+                width: p.size,
+                height: p.size,
+                background: p.hue,
+                boxShadow: `0 0 ${p.size * 3}px ${p.hue}`,
+                animationDuration: p.dur,
+                animationDelay: p.delay,
+                "--drift": p.drift,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* ── LEFT: cinematic media (55–60%) ── */}
+        <div className="hero-left">
+          <div
+            className="hero-media-scale"
+            style={{
+              transform: `scale(1.1) translate(${tilt.x * -10}px, ${tilt.y * -10}px)`,
+            }}
+          >
+            {videoOk && data.coverVideo ? (
+              <video
+                className="hero-media-el"
+                src={data.coverVideo}
+                poster={data.coverImage}
+                autoPlay
+                muted
+                loop
+                playsInline
+                onError={() => setVideoOk(false)}
+              />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className="hero-media-el" src={data.coverImage} alt={data.title} />
+            )}
+          </div>
+          <div className="hero-media-gradient" />
+          <div className="hero-media-vignette" />
+          <div className="hero-media-edge" />
+
+          <div className="hero-badges">
+            <span className="hero-badge hero-badge-star">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M12 2l2.9 6.9L22 9.7l-5.5 4.9L18 22l-6-3.9L6 22l1.5-7.4L2 9.7l7.1-.8z"/></svg>
+              Featured Project
+            </span>
+            <span className="hero-badge hero-badge-engine">Unreal Engine 5</span>
+          </div>
+        </div>
+
+        {/* ── RIGHT: content, vertically centered (40–45%) ── */}
+        <div className="hero-right">
+          <div className="hero-right-inner">
+            <div className="hero-meta">
+              <span className="hero-mbadge">{data.category}</span>
+              <span className="hero-mdot">·</span>
+              <span className="hero-myear">{data.year}</span>
+              <span className="hero-mdot">·</span>
+              <span className="hero-mstatus">{data.status}</span>
+            </div>
+
+            <h1 className="hero-title">
+              {data.title}
+              <span className="hero-title-accent">— {data.titleAccent}</span>
+            </h1>
+            <p className="hero-tagline">{data.tagline}</p>
+
+            <div className="hero-tech">
+              {data.tech.map((t) => (
+                <span key={t} className="hero-chip">{t}</span>
+              ))}
+            </div>
+
+            <div className="hero-summary">
+              <p className="hero-summary-line"><span>Overview</span>{data.overview}</p>
+              <p className="hero-summary-line"><span>Challenge</span>{data.challenge}</p>
+              <p className="hero-summary-line"><span>Solution</span>{data.solution}</p>
+            </div>
+
+            <div className="hero-stats">
+              {data.stats.map((s) => (
+                <div key={s.label} className="hero-stat">
+                  <p className="hero-stat-label">{s.label}</p>
+                  <p className="hero-stat-value">{s.value}</p>
+                </div>
+              ))}
+            </div>
+
+            <a
+              href={data.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-cta"
+              onClick={spawnRipple}
+            >
+              <span className="hero-cta-play">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </span>
+              <span className="hero-cta-label">Watch Environment Demo</span>
+              <span className="hero-cta-shine" />
+              {ripples.map((r) => (
+                <span key={r.id} className="hero-cta-ripple" style={{ left: r.x, top: r.y }} />
+              ))}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 const PROJECTS = [
   {
@@ -211,8 +546,8 @@ const PROJECTS = [
   },
 ];
 
-/* ─── Travelling Border Light ─────────────────────────────────────── */
-function TravellingBorder({ color, width, height, radius = 22 }) {
+/* ─── Travelling Border Light (project modal) ─────────────────────── */
+function ModalTravellingBorder({ color, width, height, radius = 22 }) {
   const canvasRef = useRef(null);
   const rafRef = useRef(null);
 
@@ -334,7 +669,7 @@ function ModalWithBorder({ color, children }) {
       }}
     >
       {size.w > 0 && size.h > 0 && (
-        <TravellingBorder color={color} width={size.w} height={size.h} radius={22} />
+        <ModalTravellingBorder color={color} width={size.w} height={size.h} radius={22} />
       )}
       {children}
     </div>
@@ -347,7 +682,6 @@ function Lightbox({ images, startIndex, onClose }) {
   const [zoomed, setZoomed] = useState(false);
   const [dragStart, setDragStart] = useState(null);
 
-  // Close on Escape, navigate with arrow keys
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
@@ -358,13 +692,11 @@ function Lightbox({ images, startIndex, onClose }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [images.length, onClose]);
 
-  // Reset zoom when image changes
   useEffect(() => { setZoomed(false); }, [idx]);
 
   const prev = (e) => { e.stopPropagation(); setIdx((i) => (i - 1 + images.length) % images.length); };
   const next = (e) => { e.stopPropagation(); setIdx((i) => (i + 1) % images.length); };
 
-  // Touch swipe
   const onTouchStart = (e) => setDragStart(e.touches[0].clientX);
   const onTouchEnd = (e) => {
     if (dragStart === null) return;
@@ -380,13 +712,8 @@ function Lightbox({ images, startIndex, onClose }) {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* Close button */}
       <button className="lb-close" onClick={onClose} aria-label="Close lightbox">✕</button>
-
-      {/* Counter */}
       <div className="lb-counter">{idx + 1} / {images.length}</div>
-
-      {/* Main image */}
       <div
         className={`lb-img-wrap${zoomed ? " lb-zoomed" : ""}`}
         onClick={(e) => { e.stopPropagation(); setZoomed((z) => !z); }}
@@ -400,7 +727,6 @@ function Lightbox({ images, startIndex, onClose }) {
           className="lb-img"
           draggable={false}
         />
-        {/* Zoom hint */}
         {!zoomed && (
           <div className="lb-zoom-hint">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
@@ -410,16 +736,12 @@ function Lightbox({ images, startIndex, onClose }) {
           </div>
         )}
       </div>
-
-      {/* Navigation arrows */}
       {images.length > 1 && (
         <>
           <button className="lb-arrow lb-prev" onClick={prev} aria-label="Previous image">‹</button>
           <button className="lb-arrow lb-next" onClick={next} aria-label="Next image">›</button>
         </>
       )}
-
-      {/* Dot strip */}
       {images.length > 1 && (
         <div className="lb-dots" onClick={(e) => e.stopPropagation()}>
           {images.map((_, i) => (
@@ -440,7 +762,7 @@ export default function Projects() {
   const [selected, setSelected] = useState(null);
   const [dots, setDots] = useState([]);
   const [imgIndex, setImgIndex] = useState(0);
-  const [lightboxIndex, setLightboxIndex] = useState(null); // null = closed
+  const [lightboxIndex, setLightboxIndex] = useState(null);
   const backdropRef = useRef(null);
 
   useEffect(() => {
@@ -464,7 +786,6 @@ export default function Projects() {
 
   useEffect(() => {
     const onKey = (e) => {
-      // Only close modal on Escape if lightbox is NOT open (lightbox handles its own Escape)
       if (e.key === "Escape" && lightboxIndex === null) closeModal();
     };
     window.addEventListener("keydown", onKey);
@@ -474,9 +795,12 @@ export default function Projects() {
   const prevImg = () => setImgIndex((i) => (i - 1 + selected.images.length) % selected.images.length);
   const nextImg = () => setImgIndex((i) => (i + 1) % selected.images.length);
 
+  // Split the 9 Figma projects into 3 rows of 3.
+  const rows = [PROJECTS.slice(0, 3), PROJECTS.slice(3, 6), PROJECTS.slice(6, 9)];
+
   return (
     <>
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .pr-root {
           min-height: 100vh; padding: 110px 5vw 90px;
           font-family: 'Syne', sans-serif; color: #e8e0ff;
@@ -490,7 +814,7 @@ export default function Projects() {
           from { opacity: var(--op); transform: scale(1); }
           to   { opacity: calc(var(--op) * 0.18); transform: scale(0.5); }
         }
-        .pr-header { text-align: center; margin-bottom: 68px; position: relative; z-index: 2; }
+        .pr-header { text-align: center; margin-bottom: 48px; position: relative; z-index: 2; }
         .pr-eyebrow { font-size: 10px; letter-spacing: .38em; text-transform: uppercase; color: #a78bfa; margin-bottom: 12px; }
         .pr-title {
           font-family: 'Cormorant Garamond', serif;
@@ -500,16 +824,228 @@ export default function Projects() {
           background-clip: text; line-height: 1.05;
         }
         .pr-divider { width: 70px; height: 1px; background: linear-gradient(90deg, transparent, #7c3aed, transparent); margin: 18px auto 0; }
-        .pr-grid {
-          display: grid; grid-template-columns: repeat(5, 1fr);
-          gap: 16px; max-width: 1320px; margin: 0 auto; position: relative; z-index: 2;
+
+        /* ══════════════════ HERO PROJECT — one viewport, two columns ══════════════════ */
+        .hero-section {
+          max-width: 1320px; margin: 0 auto 64px; position: relative; z-index: 2;
         }
-        @media (max-width: 1180px) { .pr-grid { grid-template-columns: repeat(4, 1fr); } }
-        @media (max-width: 980px) { .pr-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 680px) { .pr-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
-        @media (max-width: 420px) { .pr-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
+        .hero-card {
+          position: relative;
+          display: flex; flex-direction: row; align-items: stretch;
+          border-radius: 28px;
+          overflow: hidden;
+          height: min(88vh, 800px);
+          min-height: 560px;
+          background: linear-gradient(155deg, rgba(16,10,34,0.92) 0%, rgba(8,5,18,0.96) 100%);
+          border: 1px solid rgba(139,123,255,0.16);
+          box-shadow: 0 40px 120px rgba(0,0,0,0.65), 0 0 0 0.5px rgba(139,123,255,0.08) inset;
+          isolation: isolate;
+        }
+        .hero-spotlight {
+          position: absolute; inset: 0; z-index: 2; pointer-events: none;
+          background: radial-gradient(480px circle at var(--spot-x) var(--spot-y),
+            color-mix(in srgb, var(--c1) 22%, transparent) 0%,
+            color-mix(in srgb, var(--c2) 10%, transparent) 35%,
+            transparent 70%);
+          transition: background 0.05s linear;
+          mix-blend-mode: screen;
+        }
+        .hero-particles { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+        .hero-particle {
+          position: absolute; bottom: -10px; border-radius: 50%;
+          animation: heroFloat linear infinite;
+          opacity: 0;
+        }
+        @keyframes heroFloat {
+          0% { transform: translateY(0) translateX(0); opacity: 0; }
+          8% { opacity: 0.85; }
+          92% { opacity: 0.5; }
+          100% { transform: translateY(-70vh) translateX(var(--drift)); opacity: 0; }
+        }
+
+        /* LEFT — cinematic media, 58% */
+        .hero-left {
+          position: relative; flex: 0 0 58%; max-width: 58%;
+          overflow: hidden; background: #05030c;
+        }
+        .hero-media-scale {
+          position: absolute; inset: 0;
+          transition: transform 0.5s cubic-bezier(.22,1,.36,1);
+        }
+        .hero-media-el {
+          width: 100%; height: 100%; object-fit: cover; object-position: center;
+          display: block; filter: saturate(1.08) contrast(1.04);
+        }
+        .hero-media-gradient {
+          position: absolute; inset: 0; z-index: 1;
+          background: linear-gradient(to top, rgba(8,5,18,0.9) 0%, rgba(8,5,18,0.15) 38%, transparent 60%);
+        }
+        .hero-media-vignette {
+          position: absolute; inset: 0; z-index: 1; pointer-events: none;
+          box-shadow: inset 0 0 140px 40px rgba(3,1,10,0.55);
+        }
+        .hero-media-edge {
+          position: absolute; top: 0; right: 0; bottom: 0; width: 120px; z-index: 1; pointer-events: none;
+          background: linear-gradient(to right, transparent, rgba(8,5,18,0.9));
+        }
+        .hero-badges {
+          position: absolute; top: 22px; left: 24px; z-index: 4;
+          display: flex; gap: 10px; flex-wrap: wrap;
+        }
+        .hero-badge {
+          display: inline-flex; align-items: center; gap: 6px;
+          font-family: 'Syne', sans-serif; font-size: 10.5px; font-weight: 600;
+          letter-spacing: .12em; text-transform: uppercase;
+          padding: 7px 14px; border-radius: 999px;
+          backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+        }
+        .hero-badge-star {
+          background: linear-gradient(120deg, rgba(139,123,255,0.35), rgba(90,200,255,0.28));
+          border: 1px solid rgba(200,190,255,0.5);
+          color: #fff;
+          box-shadow: 0 0 22px rgba(139,123,255,0.35);
+        }
+        .hero-badge-engine {
+          background: rgba(0,0,0,0.5);
+          border: 1px solid rgba(139,123,255,0.35);
+          color: rgba(220,215,255,0.92);
+        }
+
+        /* RIGHT — content, 42%, vertically centered */
+        .hero-right {
+          position: relative; z-index: 3; flex: 0 0 42%; max-width: 42%;
+          display: flex; align-items: center; overflow: hidden;
+        }
+        .hero-right-inner {
+          width: 100%; padding: 0 clamp(22px, 2.6vw, 40px);
+          display: flex; flex-direction: column; gap: clamp(8px, 1.3vh, 15px);
+        }
+        .hero-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .hero-mbadge { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 0.5px solid rgba(139,123,255,0.35); background: rgba(139,123,255,0.14); color: rgba(190,180,255,0.95); }
+        .hero-mdot { color: rgba(139,123,255,0.3); font-size: 11px; }
+        .hero-myear { font-size: 11px; color: rgba(180,170,255,0.5); letter-spacing: .12em; }
+        .hero-mstatus { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: rgba(16,185,129,0.14); border: 0.5px solid rgba(16,185,129,0.35); color: #6ee7b7; }
+        .hero-title {
+          font-family: 'Cormorant Garamond', serif; font-weight: 400;
+          font-size: clamp(1.6rem, 2.6vw, 2.4rem); line-height: 1.08; margin: 0;
+          color: #f3efff;
+        }
+        .hero-title-accent {
+          display: block;
+          font-size: 0.5em;
+          margin-top: 6px;
+          background: linear-gradient(120deg, var(--c1), var(--c2));
+          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-tagline {
+          font-size: clamp(12px, 1vw, 14px); line-height: 1.6; color: rgba(210,200,255,0.55); margin: 0;
+          display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .hero-tech { display: flex; flex-wrap: wrap; gap: 6px; max-height: 62px; overflow: hidden; }
+        .hero-chip {
+          font-size: 10.5px; letter-spacing: .04em; font-weight: 500;
+          color: rgba(210,200,255,0.85);
+          background: rgba(139,123,255,0.1);
+          border: 1px solid rgba(139,123,255,0.25);
+          border-radius: 7px; padding: 5px 11px;
+          transition: all 0.25s ease;
+        }
+        .hero-chip:hover { background: rgba(139,123,255,0.22); border-color: rgba(139,123,255,0.5); transform: translateY(-1px); }
+
+        .hero-summary {
+          background: rgba(255,255,255,0.035);
+          border: 1px solid rgba(139,123,255,0.14);
+          border-radius: 14px; padding: 10px 14px;
+          display: flex; flex-direction: column; gap: 6px;
+        }
+        .hero-summary-line {
+          font-size: 11.5px; line-height: 1.5; color: rgba(210,200,255,0.6); margin: 0;
+          display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .hero-summary-line span {
+          display: inline-block; font-family: 'Syne', sans-serif; font-size: 8.5px;
+          letter-spacing: .22em; text-transform: uppercase; color: rgba(180,170,255,0.8);
+          margin-right: 9px; font-weight: 600;
+        }
+
+        .hero-stats {
+          display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+          background: rgba(139,123,255,0.14);
+          border: 1px solid rgba(139,123,255,0.14);
+          border-radius: 12px; overflow: hidden;
+        }
+        .hero-stat { background: rgba(12,7,26,0.9); padding: 9px 11px; }
+        .hero-stat-label { font-size: 7.5px; letter-spacing: .2em; text-transform: uppercase; color: rgba(170,160,255,0.55); margin-bottom: 4px; }
+        .hero-stat-value { font-family: 'Cormorant Garamond', serif; font-size: 0.88rem; color: #ede9fe; line-height: 1.2; }
+
+        .hero-cta {
+          position: relative; display: inline-flex; align-items: center; gap: 10px;
+          padding: 12px 24px 12px 17px; border-radius: 999px; text-decoration: none;
+          font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .05em;
+          color: #fff; overflow: hidden; cursor: pointer; isolation: isolate;
+          width: fit-content;
+          background: linear-gradient(115deg, var(--c1), var(--c2), var(--c1));
+          background-size: 220% 220%;
+          animation: heroGradientShift 6s ease infinite;
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.12) inset, 0 14px 40px rgba(90,80,255,0.35);
+          transition: transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease;
+        }
+        @keyframes heroGradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .hero-cta:hover {
+          transform: translateY(-3px) scale(1.015);
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.22) inset, 0 20px 60px rgba(120,100,255,0.55);
+        }
+        .hero-cta-play {
+          display: flex; align-items: center; justify-content: center;
+          width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+          background: rgba(255,255,255,0.22);
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.3) inset;
+        }
+        .hero-cta-shine {
+          position: absolute; top: 0; left: -60%; width: 45%; height: 100%;
+          background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+          transform: skewX(-20deg);
+          animation: heroShine 3.2s ease-in-out infinite;
+          pointer-events: none;
+        }
+        @keyframes heroShine {
+          0% { left: -60%; }
+          45% { left: 130%; }
+          100% { left: 130%; }
+        }
+        .hero-cta-ripple {
+          position: absolute; border-radius: 50%; pointer-events: none;
+          background: rgba(255,255,255,0.5);
+          transform: translate(-50%, -50%);
+          width: 8px; height: 8px;
+          animation: heroRipple 0.65s ease-out forwards;
+        }
+        @keyframes heroRipple { to { width: 340px; height: 340px; opacity: 0; } }
+
+        @media (max-width: 980px) {
+          .hero-card { flex-direction: column; height: auto; min-height: 0; }
+          .hero-left { flex-basis: auto; max-width: 100%; height: 44vh; min-height: 300px; }
+          .hero-right { flex-basis: auto; max-width: 100%; }
+          .hero-right-inner { padding: 26px clamp(20px, 4vw, 36px) 32px; gap: 13px; }
+          .hero-tagline { -webkit-line-clamp: 4; }
+        }
+
+        /* ══════════════════ FIGMA PROJECTS — 3 rows of 3, each row ≈ one screen ══════════════════ */
+        .pr-rows { max-width: 1080px; margin: 0 auto; position: relative; z-index: 2; }
+        .pr-row {
+          display: flex; align-items: center; justify-content: center;
+          min-height: 86vh;
+          padding: 24px 0;
+        }
+        .pr-row + .pr-row { margin-top: 8px; }
+        .pr-grid {
+          display: grid; grid-template-columns: repeat(3, 1fr);
+          gap: 32px; width: 100%;
+        }
+        @media (max-width: 900px) { .pr-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; } .pr-row { min-height: auto; padding: 16px 0; } }
+        @media (max-width: 560px) { .pr-grid { grid-template-columns: 1fr; gap: 16px; } .pr-row { min-height: auto; } }
         .pr-card {
-          display: flex; flex-direction: column; border-radius: 14px; overflow: hidden;
+          display: flex; flex-direction: column; border-radius: 13px; overflow: hidden;
           border: 1px solid rgba(167,139,250,0.14);
           background: linear-gradient(160deg, rgba(14,8,28,0.98) 0%, rgba(10,5,20,0.98) 100%);
           box-shadow: 0 8px 40px rgba(0,0,0,0.45), 0 0 0 0.5px rgba(167,139,250,0.07) inset;
@@ -518,13 +1054,14 @@ export default function Projects() {
           animation: cardUp 0.65s cubic-bezier(.22,1,.36,1) both;
         }
         .pr-card:hover {
-          transform: translateY(-7px) scale(1.012);
+          transform: translateY(-8px) scale(1.015);
           border-color: rgba(167,139,250,0.4);
-          box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(167,139,250,0.22) inset, 0 0 90px rgba(124,58,237,0.11);
+          box-shadow: 0 28px 70px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(167,139,250,0.22) inset, 0 0 100px rgba(124,58,237,0.12);
         }
         @keyframes cardUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
         .card-img-wrap {
           position: relative; width: 100%; overflow: hidden;
+          aspect-ratio: 3 / 4;
           background: rgba(0,0,0,0.45); flex-shrink: 0;
         }
         .card-img-scale {
@@ -537,31 +1074,31 @@ export default function Projects() {
           background: linear-gradient(to bottom, transparent 30%, rgba(10,5,22,0.65) 100%);
           pointer-events: none; z-index: 1;
         }
-        .card-img-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; z-index: 2; }
+        .card-img-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 2; }
         .card-num-badge {
-          position: absolute; top: 12px; left: 14px; z-index: 2;
-          font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300;
+          position: absolute; top: 10px; left: 11px; z-index: 2;
+          font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300;
           color: rgba(255,255,255,0.55); text-shadow: 0 2px 12px rgba(0,0,0,0.6);
         }
         .card-cat-badge {
           position: absolute; top: 8px; right: 8px; z-index: 2;
-          font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase;
+          font-size: 6.5px; letter-spacing: 0.14em; text-transform: uppercase;
           color: rgba(232,224,255,0.85); background: rgba(20,10,40,0.9);
           border: 1px solid rgba(167,139,250,0.25); border-radius: 999px; padding: 3px 7px;
           max-width: calc(100% - 16px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-        .card-body { padding: 12px 12px 12px; display: flex; flex-direction: column; flex: 1; }
-        .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 500; color: #ede9fe; margin: 0 0 4px; line-height: 1.2; }
+        .card-body { padding: 15px 15px 17px; display: flex; flex-direction: column; flex: 1; }
+        .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; color: #ede9fe; margin: 0 0 5px; line-height: 1.2; }
         .card-tagline {
-          font-size: 10.5px; color: rgba(200,185,255,0.5); line-height: 1.5; margin: 0 0 10px; flex: 1;
+          font-size: 10px; color: rgba(200,185,255,0.5); line-height: 1.6; margin: 0 0 12px; flex: 1;
           display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
         }
-        .card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
-        .ctag { font-size: 8.5px; letter-spacing: .06em; color: rgba(167,139,250,0.65); background: rgba(124,58,237,0.14); border: 1px solid rgba(167,139,250,0.18); border-radius: 5px; padding: 2px 6px; }
+        .card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+        .ctag { font-size: 7.5px; letter-spacing: .06em; color: rgba(167,139,250,0.65); background: rgba(124,58,237,0.14); border: 1px solid rgba(167,139,250,0.18); border-radius: 4px; padding: 2px 6px; }
         .card-btn {
-          display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px;
+          display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 999px;
           border: 1px solid rgba(167,139,250,0.25); background: rgba(255,255,255,0.06);
-          color: rgba(200,185,255,0.85); font-family: 'Syne', sans-serif; font-size: 10px;
+          color: rgba(200,185,255,0.85); font-family: 'Syne', sans-serif; font-size: 9px;
           font-weight: 500; letter-spacing: .05em; cursor: pointer; transition: all 0.25s ease;
           width: fit-content; margin-top: auto;
         }
@@ -625,7 +1162,6 @@ export default function Projects() {
         .gal-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.25); border: none; padding: 0; cursor: pointer; transition: all 0.25s; }
         .gal-dot.on { background: #a78bfa; width: 16px; border-radius: 3px; box-shadow: 0 0 6px rgba(167,139,250,0.6); }
 
-        /* ── CLICKABLE image + zoom-in cursor hint ── */
         .gal-img-clickable {
           position: absolute; inset: 0; width: 100%; height: 100%;
           object-fit: contain; object-position: center;
@@ -744,7 +1280,7 @@ export default function Projects() {
           background: rgba(255,255,255,0.22); border: none; padding: 0; cursor: pointer; transition: all 0.22s;
         }
         .lb-dot.lb-dot-on { background: #a78bfa; width: 18px; border-radius: 3px; box-shadow: 0 0 6px rgba(167,139,250,0.65); }
-      `}</style>
+      ` }} />
 
       <div className="pr-root" style={{ color: "#e8e0ff", position: "relative", zIndex: 10 }}>
         {dots.map((d) => (
@@ -757,44 +1293,52 @@ export default function Projects() {
           <div className="pr-divider" />
         </header>
 
-        <div className="pr-grid">
-          {PROJECTS.map((p, i) => (
-            <div
-              key={p.id}
-              className="pr-card"
-              style={{ animationDelay: `${0.05 + i * 0.07}s` }}
-              onClick={() => openModal(p)}
-            >
-              <div
-                className="card-img-wrap"
-                style={{ aspectRatio: p.type === "mobile" ? "3/4" : p.type === "pdf" ? "3/4" : "16/9" }}
-              >
-                <div className="card-img-accent" style={{ background: `linear-gradient(90deg, ${p.color}, transparent)` }} />
-                <div className="card-img-scale">
-                  <Image
-                    src={p.coverImage}
-                    alt={p.title}
-                    fill
-                    sizes="(max-width: 420px) 50vw, (max-width: 680px) 50vw, (max-width: 980px) 33vw, (max-width: 1180px) 25vw, 20vw"
-                    style={{ objectFit: "cover" }}
-                    priority={i < 3}
-                    onError={() => {}}
-                  />
-                </div>
-                <div className="card-img-overlay" />
-                <span className="card-cat-badge">{p.category}</span>
-              </div>
+        <HeroProject data={HERO_PROJECT} />
 
-              <div className="card-body">
-                <h2 className="card-title">{p.title}</h2>
-                <p className="card-tagline">{p.tagline}</p>
-                <div className="card-tags">
-                  {p.tags.slice(0, 2).map((t) => <span key={t} className="ctag">{t}</span>)}
-                  {p.tags.length > 2 && <span className="ctag">+{p.tags.length - 2}</span>}
-                </div>
-                <button className="card-btn" onClick={(e) => { e.stopPropagation(); openModal(p); }}>
-                  View Details <span className="btn-arrow">→</span>
-                </button>
+        <div className="pr-rows">
+          {rows.map((row, ri) => (
+            <div className="pr-row" key={ri}>
+              <div className="pr-grid">
+                {row.map((p, i) => (
+                  <div
+                    key={p.id}
+                    className="pr-card"
+                    style={{ animationDelay: `${0.05 + (ri * 3 + i) * 0.07}s` }}
+                    onClick={() => openModal(p)}
+                  >
+                    <div
+                      className="card-img-wrap"
+                      style={{ aspectRatio: p.type === "mobile" ? "3/4" : p.type === "pdf" ? "3/4" : "16/9" }}
+                    >
+                      <div className="card-img-accent" style={{ background: `linear-gradient(90deg, ${p.color}, transparent)` }} />
+                      <div className="card-img-scale">
+                        <Image
+                          src={p.coverImage}
+                          alt={p.title}
+                          fill
+                          sizes="(max-width: 420px) 50vw, (max-width: 680px) 50vw, (max-width: 980px) 33vw, (max-width: 1180px) 25vw, 20vw"
+                          style={{ objectFit: "cover" }}
+                          priority={ri === 0 && i < 3}
+                          onError={() => {}}
+                        />
+                      </div>
+                      <div className="card-img-overlay" />
+                      <span className="card-cat-badge">{p.category}</span>
+                    </div>
+
+                    <div className="card-body">
+                      <h2 className="card-title">{p.title}</h2>
+                      <p className="card-tagline">{p.tagline}</p>
+                      <div className="card-tags">
+                        {p.tags.slice(0, 2).map((t) => <span key={t} className="ctag">{t}</span>)}
+                        {p.tags.length > 2 && <span className="ctag">+{p.tags.length - 2}</span>}
+                      </div>
+                      <button className="card-btn" onClick={(e) => { e.stopPropagation(); openModal(p); }}>
+                        View Details <span className="btn-arrow">→</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           ))}
@@ -818,7 +1362,6 @@ export default function Projects() {
                   <iframe src={selected.images[0]} title={selected.title} className="mgal-pdf" />
                 ) : (
                   <>
-                    {/* Clickable image — opens lightbox on click */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       key={selected.images[imgIndex]}
@@ -829,7 +1372,6 @@ export default function Projects() {
                       title="Click to view full size"
                     />
 
-                    {/* Preload next image */}
                     {selected.images[imgIndex + 1] && (
                       <link rel="preload" as="image" href={selected.images[imgIndex + 1]} />
                     )}
