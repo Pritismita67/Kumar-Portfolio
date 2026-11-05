@@ -866,11 +866,11 @@ export default function HeroSplit() {
               </div>
               <div className="corner-bl" />
               <div className="stat-chip chip-top-right">
-                <span className="chip-number">2.5+</span>
+                <span className="chip-number">1.5+</span>
                 <span className="chip-label">Yrs Exp</span>
               </div>
               <div className="stat-chip chip-bottom-left">
-                <span className="chip-number">42+</span>
+                <span className="chip-number">20+</span>
                 <span className="chip-label">Projects</span>
               </div>
             </div>
