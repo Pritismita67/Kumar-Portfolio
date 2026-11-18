@@ -22,8 +22,8 @@ const expertise = [
 const SPLASH_DURATION = 4000
 const PROFILE = {
   name: 'Pritish Kumar',
-  role: 'UI / UX Designer',
-  image: '/profile.webp',
+  role: 'UI / UX Designer, UE 5.7 Developer',
+  image: '/NEW ONE.png',
 }
 
 function SplitText({ text, className }) {
@@ -535,8 +535,17 @@ export default function HeroSplit() {
           align-items: center;
         }
 
-        /* ── LEFT ── */
-        .left-panel { display: flex; flex-direction: column; gap: 16px; }
+        /* ── LEFT ──
+           width:100% + min-width:0 so every child (badge, headline, paragraph,
+           expertise card) shares the exact same left & right edges. */
+        .left-panel {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 16px;
+          width: 100%;
+          min-width: 0;
+        }
 
         .role-badge {
           display: inline-flex;
@@ -594,34 +603,43 @@ export default function HeroSplit() {
         }
 
         /* ── DESCRIPTION PANEL ──
-           Solid frosted glass so the animated background tech icons
-           never show through behind the paragraph text. */
+           Now spans the full width of the left column, so its right edge lines
+           up exactly with the Core Expertise card below it. */
         .hero-desc-panel {
           position: relative;
+          width: 100%;
+          max-width: none;
+          box-sizing: border-box;
           background: rgba(8, 4, 16, 0.97);
           border: 1px solid rgba(255,255,255,0.07);
           border-radius: 16px;
-          padding: 14px 18px;
-          max-width: 480px;
+          padding: 18px 22px;
           backdrop-filter: blur(22px) saturate(140%);
           -webkit-backdrop-filter: blur(22px) saturate(140%);
           box-shadow: 0 4px 28px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
         }
 
+        /* Bigger, more readable paragraph text */
         .hero-desc {
           font-family: 'DM Mono', monospace;
-          font-size: 11.5px; line-height: 1.65;
-          color: rgba(203, 213, 225, 0.82);
+          font-size: clamp(13px, 1.12vw, 15px);
+          line-height: 1.75;
+          letter-spacing: 0.005em;
+          color: rgba(203, 213, 225, 0.88);
           font-weight: 300;
+          text-align: left;
           margin: 0;
+          overflow-wrap: break-word;
         }
 
         /* ── GLASS EXPERTISE ──
-           Darker + stronger blur so background icons are fully hidden. */
+           Same width + box-sizing as the paragraph panel for perfect alignment. */
         .glass-expertise {
+          width: 100%;
+          box-sizing: border-box;
           background: rgba(8, 4, 16, 0.97);
           border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 18px; padding: 16px 20px;
+          border-radius: 18px; padding: 18px 22px;
           backdrop-filter: blur(24px) saturate(140%);
           -webkit-backdrop-filter: blur(24px) saturate(140%);
           box-shadow: 0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
@@ -629,7 +647,7 @@ export default function HeroSplit() {
 
         .expertise-title {
           font-family: 'DM Mono', monospace;
-          font-size: 9.5px; letter-spacing: 0.2em;
+          font-size: 10px; letter-spacing: 0.2em;
           color: #a78bfa; text-transform: uppercase;
           margin-bottom: 10px; margin-top: 0;
         }
@@ -808,6 +826,7 @@ export default function HeroSplit() {
           .chip-top-right { right: -24px; }
           .chip-bottom-left { left: -28px; }
           .scroll-hint { bottom: 14px; }
+          .hero-desc { font-size: 14px; }
         }
       `}</style>
 
@@ -828,7 +847,7 @@ export default function HeroSplit() {
           <div className="left-panel">
             <div className="role-badge">
               <span className="role-dot" />
-              <span className="role-text">UI / UX Designer</span>
+              <span className="role-text">UI / UX Designer, UE 5.7 Developer</span>
             </div>
 
             <div className="hero-headline">
@@ -861,7 +880,7 @@ export default function HeroSplit() {
           <div className="right-panel">
             <div className="photo-frame">
               <div className="photo-glass-card">
-                <img src="/profile.webp" alt="Kumar Pritish" className="photo-img" />
+                <img src="/NEW ONE.png" alt="Kumar Pritish" className="photo-img" />
                 <div className="photo-sheen" />
               </div>
               <div className="corner-bl" />

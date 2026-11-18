@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from 'react'
 
-// ── Tool data — 5 / 4 / 3 / 2 / 1 pyramid ─────────────────────────────────
+// ── Tool data — 6 / 5 / 4 / 2 / 1 pyramid ─────────────────────────────────
 const rows = [
-  // Row 1 — 5 tools
+  // Row 1 — 6 tools
   [
-    
     {
-      // FigJam — exact Figma 5-node shape (same as Figma icon structure) in FigJam colors
+      // Figma — official 5-node shape
       name: 'Figma',
       color: '#F24E1E',
       glow: 'rgba(242,78,30,0.45)',
@@ -95,12 +94,29 @@ const rows = [
         </svg>
       ),
     },
+    {
+      // NEW — Unreal Engine 5.7: circular "U" emblem
+      name: 'Unreal Engine 5.7',
+      color: '#E5E7EB',
+      glow: 'rgba(229,231,235,0.35)',
+      icon: (
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="38" height="38">
+          {/* Outer ring */}
+          <circle cx="24" cy="24" r="20.5" stroke="white" strokeWidth="2.6"/>
+          {/* Stylised "U" with the Unreal-style slanted left arm and notch */}
+          <path
+            d="M14.5 13.5 H20.5 V26 C20.5 28.6 21.9 30.2 24 30.2 C26.1 30.2 27.5 28.6 27.5 26 V13.5 H33.5 V26.4 C33.5 32 29.6 36 24 36 C22.2 36 20.6 35.6 19.2 34.8 L16.2 38.4 L14.5 33.2 Z"
+            fill="white"
+          />
+        </svg>
+      ),
+    },
   ],
 
-  // Row 2 — 4 tools
+  // Row 2 — 5 tools
   [
     {
-      // Official Google Stitch logo (AI design tool) — stylized "S" with threads
+      // Google Stitch (AI design tool)
       name: 'Stitch',
       color: '#4285F4',
       glow: 'rgba(66,133,244,0.40)',
@@ -131,13 +147,12 @@ const rows = [
       ),
     },
     {
-      // Official Wix logo — black rectangle with white "Wix" wordmark
+      // Wix wordmark
       name: 'Wix Studio',
       color: '#FFFFFF',
       glow: 'rgba(255,255,255,0.30)',
       icon: (
         <svg viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg" width="50" height="22">
-          {/* Official Wix wordmark: W-i-x in clean sans-serif */}
           <text
             x="0" y="40"
             fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
@@ -163,9 +178,34 @@ const rows = [
         </svg>
       ),
     },
+    {
+      // NEW — Claude AI: terracotta radiating starburst
+      name: 'Claude AI',
+      color: '#D97757',
+      glow: 'rgba(217,119,87,0.45)',
+      icon: (
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="38" height="38">
+          <g stroke="#D97757" strokeWidth="4" strokeLinecap="round">
+            <line x1="24" y1="4"  x2="24" y2="15" />
+            <line x1="24" y1="7"  x2="24" y2="16" transform="rotate(30 24 24)" />
+            <line x1="24" y1="4"  x2="24" y2="15" transform="rotate(60 24 24)" />
+            <line x1="24" y1="7"  x2="24" y2="16" transform="rotate(90 24 24)" />
+            <line x1="24" y1="4"  x2="24" y2="15" transform="rotate(120 24 24)" />
+            <line x1="24" y1="7"  x2="24" y2="16" transform="rotate(150 24 24)" />
+            <line x1="24" y1="4"  x2="24" y2="15" transform="rotate(180 24 24)" />
+            <line x1="24" y1="7"  x2="24" y2="16" transform="rotate(210 24 24)" />
+            <line x1="24" y1="4"  x2="24" y2="15" transform="rotate(240 24 24)" />
+            <line x1="24" y1="7"  x2="24" y2="16" transform="rotate(270 24 24)" />
+            <line x1="24" y1="4"  x2="24" y2="15" transform="rotate(300 24 24)" />
+            <line x1="24" y1="7"  x2="24" y2="16" transform="rotate(330 24 24)" />
+          </g>
+          <circle cx="24" cy="24" r="4.5" fill="#D97757"/>
+        </svg>
+      ),
+    },
   ],
 
-  // Row 3 — 3 tools
+  // Row 3 — 4 tools
   [
     {
       name: 'Mid Journey',
@@ -208,6 +248,27 @@ const rows = [
         </svg>
       ),
     },
+    {
+      // NEW — Lovable AI: gradient heart
+      name: 'Lovable AI',
+      color: '#FF4D8D',
+      glow: 'rgba(255,77,141,0.45)',
+      icon: (
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="38" height="38">
+          <defs>
+            <linearGradient id="lovableGrad" x1="6" y1="40" x2="42" y2="6" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stopColor="#4F7BFF"/>
+              <stop offset="45%"  stopColor="#FF3D77"/>
+              <stop offset="100%" stopColor="#FF9A3D"/>
+            </linearGradient>
+          </defs>
+          <path
+            d="M24 43 C24 43 5 31 5 17.5 C5 11.2 9.7 7 15.5 7 C19.2 7 22.4 9 24 12.2 C25.6 9 28.8 7 32.5 7 C38.3 7 43 11.2 43 17.5 C43 31 24 43 24 43Z"
+            fill="url(#lovableGrad)"
+          />
+        </svg>
+      ),
+    },
   ],
 
   // Row 4 — 2 tools
@@ -242,7 +303,7 @@ const rows = [
   // Row 5 — 1 tool
   [
     {
-      // FigJam — exact Figma 5-node shape (same as Figma icon structure) in FigJam colors
+      // FigJam — exact Figma 5-node shape in FigJam colors
       name: 'FigJam',
       color: '#F24E1E',
       glow: 'rgba(242,78,30,0.45)',
@@ -267,7 +328,7 @@ const rows = [
 // ── Individual tool card ───────────────────────────────────────────────────────
 function ToolCard({ tool, index, rowIndex }) {
   const [hovered, setHovered] = useState(false)
-  const delay = (rowIndex * 5 + index) * 80
+  const delay = (rowIndex * 6 + index) * 80
 
   return (
     <div

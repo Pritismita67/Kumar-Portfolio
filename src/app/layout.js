@@ -9,7 +9,7 @@ export const metadata = {
   title: 'Kumar Pritish — Creative Developer',
   description: 'UX/UI Designer',
   icons: {
-    icon: '/profile.webp',
+    icon: '/NEW ONE.png',
   },
   openGraph: {
     title: 'Kumar Pritish — Creative Developer',

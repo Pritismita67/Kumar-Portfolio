@@ -323,7 +323,7 @@ export default function Footer() {
                   <span className="ft-logo-white">Pritish </span>
                   <span className="ft-logo-purple">Kumar</span>
                 </h2>
-                <p className="ft-tagline">UI / UX Designer </p>
+                <p className="ft-tagline">UI / UX Designer, UE 5.7 Developer </p>
               </div>
 
               <div className="ft-socials">

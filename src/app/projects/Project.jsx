@@ -12,15 +12,15 @@ const HERO_PROJECT = {
   title: "Mountain Escape",
   titleAccent: "Real-Time Environment",
   tagline:
-    "A cinematic Unreal Engine 5 environment showcasing real-time rendering, immersive landscapes, dynamic lighting, and environment design.",
+    "A cinematic Unreal Engine 5.7 environment showcasing real-time rendering, immersive landscapes, dynamic lighting, and environment design.",
   category: "Real-Time 3D Environment",
   year: "2026",
   status: "Live",
-  engine: "Unreal Engine 5",
+  engine: "Unreal Engine 5.7",
   rendering: "Lumen · Nanite",
   coverImage: "/mountain.png",
  
-  tech: ["Unreal Engine 5", "Nanite", "Lumen", "Landscape", "Foliage", "Lighting", "Cinematics"],
+  tech: ["Unreal Engine 5.7", "Nanite", "Lumen", "Landscape", "Foliage", "Lighting", "Cinematics"],
   overview:
     "A fully real-time UE5 environment blending large-scale terrain, dense foliage, and volumetric atmosphere — no baked lighting, no pre-rendered tricks.",
   challenge:
@@ -28,7 +28,7 @@ const HERO_PROJECT = {
   solution:
     "Nanite micro-geometry + Lumen dynamic GI, tuned foliage and fog, captured through Sequencer.",
   stats: [
-    { label: "Engine", value: "Unreal Engine 5" },
+    { label: "Engine", value: "Unreal Engine 5.7" },
     { label: "Rendering", value: "Lumen + Nanite" },
     { label: "Category", value: "Environment Art" },
     { label: "Status", value: "Live" },
@@ -273,7 +273,7 @@ function HeroProject({ data }) {
               <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M12 2l2.9 6.9L22 9.7l-5.5 4.9L18 22l-6-3.9L6 22l1.5-7.4L2 9.7l7.1-.8z"/></svg>
               Featured Project
             </span>
-            <span className="hero-badge hero-badge-engine">Unreal Engine 5</span>
+            <span className="hero-badge hero-badge-engine">Unreal Engine 5.7</span>
           </div>
         </div>
 
@@ -325,7 +325,7 @@ function HeroProject({ data }) {
               <span className="hero-cta-play">
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </span>
-              <span className="hero-cta-label">Watch Environment Demo</span>
+              <span className="hero-cta-label">Checkout my UE 5.7 work</span>
               <span className="hero-cta-shine" />
               {ripples.map((r) => (
                 <span key={r.id} className="hero-cta-ripple" style={{ left: r.x, top: r.y }} />
@@ -338,7 +338,66 @@ function HeroProject({ data }) {
   );
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   PROJECT IMAGE FILE NAMES (put these in /public)
+   Turf Zone Web : /Turf Zone Web.pdf  +  /turf4.png (card thumbnail)
+   AC CRM Light  : /ac-white-1.png … /ac-white-6.png
+   AC CRM Dark   : /ac-dark-1.png  … /ac-dark-6.png
+   ───────────────────────────────────────────────────────────────── */
+const AC_WHITE = [1, 2, 3, 4, 5, 6].map((n) => `/ac-white-${n}.png`);
+const AC_DARK = [1, 2, 3, 4, 5, 6].map((n) => `/ac-dark-${n}.png`);
+
 const PROJECTS = [
+  /* ═══════════ NEW #1 — Turf Zone (Web) ═══════════ */
+  {
+    id: 10,
+    type: "pdf",
+    title: "Turf Zone — Web",
+    tagline: "Play. Compete. Repeat — The Desktop Booking Experience",
+    category: "Sports Turf Booking · Web UI/UX",
+    year: "2026",
+    status: "Live",
+    tags: ["Figma", "Web Design", "Design System", "Responsive Design"],
+    // Card thumbnail (a PNG/JPG of the PDF's first page) — put in /public
+    coverImage: "/turf4.png",
+    // The PDF itself — put in /public. It opens in the modal viewer.
+    images: ["/Turf Zone Web.pdf"],
+    description:
+      "The web version of Turf Zone is a premium sports turf booking experience built for desktop and tablet users. It lets players discover venues, compare turfs, check live slot availability, and reserve a ground in just a few clicks, while carrying the same bold, sports-first brand identity as the mobile app. As the Lead UI/UX Designer, I owned the full web experience — from information architecture and wireframes to high-fidelity screens, responsive behaviour, and developer handoff.",
+    challenge:
+      "Turf booking websites are often cluttered and slow to navigate, with weak visual hierarchy, long reservation flows, and little brand energy. The challenge was to turn a multi-step booking journey into a fast, confident, conversion-focused web experience that still feels premium and exciting on large screens.",
+    solution:
+      "Designed a clean, high-contrast web layout in Figma with a strong hero, smart venue filters, clear slot-selection patterns, and a streamlined checkout. A reusable design system and responsive grid kept every page consistent, while strategic CTAs and a clear path toward the mobile app improved conversion and retention.",
+    liveUrl: "https://www.figma.com/design/3IABVtMSgi4yidjtqFrFcu/Turf-Zone-Pritish-Advanced?node-id=1086-5083&t=4FwIRsPBCuU79AWe-0",
+    color: "#14b8a6",
+  },
+
+  /* ═══════════ NEW #2 — AC CRM (Mobile, Light + Dark) ═══════════ */
+  {
+    id: 11,
+    type: "mobile",
+    title: "AC CRM",
+    tagline: "Smart AC Service Management — Designed for Light & Dark Mode",
+    category: "Mobile App · Service CRM UI/UX",
+    year: "2026",
+    status: "Live",
+    tags: ["Figma", "Glassmorphism", "Dark Mode", "Design System"],
+    coverImage: "/ac-white-1.png",
+    images: [...AC_WHITE, ...AC_DARK],
+    galleryRows: [
+      { label: "Light Mode", mode: "light", images: AC_WHITE },
+      { label: "Dark Mode", mode: "dark", images: AC_DARK },
+    ],
+    description:
+      "AC CRM is a mobile customer-service app that makes air-conditioner care effortless. After a personalised welcome, customers see a bold “Need AC Service?” banner with a one-tap Book a Service button, plus quick actions for Book Service, My Requests, and Feedbacks. An Active Request card tracks the live job — request ID, service type (e.g. AC Repair), scheduled date, and one-tap Track and Call buttons. My Services lists every registered unit (such as a Mitsubishi 1.5 Ton) with purchase details, while Recent Requests and Closed Tickets keep a clear history with status pills like Pending. A floating bottom navigation (Home, Requests, Services, Notifications, Profile) keeps everything one thumb-tap away. The full experience was designed in both a light and a dark theme, using a frosted-glass visual language and a deep-blue brand palette.",
+    challenge:
+      "Customers juggle bookings, repairs, technician visits, and multiple AC units, and most service apps bury this behind confusing menus. The challenge was to give users instant access to booking and live job status, keep a long service history readable, and deliver a polished, consistent look in both light and dark themes.",
+    solution:
+      "Built a card-based, glassmorphism UI system in Figma with clear hierarchy: a prominent booking CTA, quick-action tiles, a highlighted Active Request card with Track/Call shortcuts, and scannable lists for services, recent requests, and closed tickets. A shared colour-token and component library powers both light and dark modes, so all 12 screens stay perfectly consistent, accessible, and easy to extend.",
+    liveUrl: "https://www.figma.com/design/NrzIN8CiGEzAYhat5N0jAQ/Task---SAIntellect-Solutions?node-id=278-723&p=f&t=lgnKfAlaZ9X3FugL-0",
+    color: "#4f6ef7",
+  },
+
   {
     id: 1,
     type: "mobile",
@@ -676,6 +735,163 @@ function ModalWithBorder({ color, children }) {
   );
 }
 
+/* ─── Horizontal gallery row (AC CRM light / dark) ───────────────────
+   • Mouse: click-and-drag "hand scroll" (grab cursor), snaps to nearest screen
+   • Touch: native swipe (vertical swipes still scroll the popup)
+   • Trackpad / Shift+wheel / visible scrollbar / ‹ › arrows / ← → keys
+   • Plain vertical mouse-wheel passes straight through to the popup        */
+function GalleryRow({ label, mode, images, title, onOpen }) {
+  const stripRef = useRef(null);
+  const [edge, setEdge] = useState({ atStart: true, atEnd: false });
+  const [dragging, setDragging] = useState(false);
+  const drag = useRef({ active: false, started: false, startX: 0, startLeft: 0, moved: false });
+
+  const getStep = () => {
+    const el = stripRef.current;
+    if (!el || !el.children[0]) return 0;
+    const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
+    return el.children[0].offsetWidth + gap;
+  };
+
+  const updateEdges = useCallback(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setEdge({ atStart: el.scrollLeft <= 2, atEnd: el.scrollLeft >= max - 2 });
+  }, []);
+
+  useEffect(() => {
+    updateEdges();
+    window.addEventListener("resize", updateEdges);
+    return () => window.removeEventListener("resize", updateEdges);
+  }, [updateEdges]);
+
+  const scrollOne = (dir) => {
+    const el = stripRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * getStep(), behavior: "smooth" });
+  };
+
+  /* ── mouse "hand" drag ── */
+  const onPointerDown = (e) => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return; // touch uses native swipe
+    const el = stripRef.current;
+    drag.current = { active: true, started: false, startX: e.clientX, startLeft: el.scrollLeft, moved: false };
+  };
+
+  const onPointerMove = (e) => {
+    const d = drag.current;
+    if (!d.active) return;
+    const el = stripRef.current;
+    const dx = e.clientX - d.startX;
+    if (!d.started) {
+      if (Math.abs(dx) < 5) return; // below threshold = still a click
+      d.started = true;
+      d.moved = true;
+      setDragging(true);
+      try { el.setPointerCapture(e.pointerId); } catch (_) {}
+    }
+    el.scrollLeft = d.startLeft - dx;
+  };
+
+  const endDrag = (e) => {
+    const d = drag.current;
+    if (!d.active) return;
+    const el = stripRef.current;
+    const wasDragging = d.started;
+    d.active = false;
+    d.started = false;
+    if (!wasDragging) return;
+    try { el.releasePointerCapture(e.pointerId); } catch (_) {}
+    setDragging(false);
+
+    // snap to the nearest screen (25% drag moves to the next / previous one)
+    const step = getStep();
+    if (step) {
+      const pos = el.scrollLeft / step;
+      const movedForward = el.scrollLeft > d.startLeft;
+      let target = movedForward ? Math.floor(pos + 0.75) : Math.ceil(pos - 0.75);
+      target = Math.max(0, Math.min(images.length - 1, target));
+      const max = el.scrollWidth - el.clientWidth;
+      el.scrollTo({ left: Math.min(max, target * step), behavior: "smooth" });
+    }
+    setTimeout(() => { drag.current.moved = false; }, 0);
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === "ArrowRight") { e.preventDefault(); scrollOne(1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); scrollOne(-1); }
+  };
+
+  const isDark = mode === "dark";
+
+  return (
+    <div className={`dg-row${isDark ? " dg-row-dark" : ""}`}>
+      <div className="dg-head">
+        <span className="dg-label">
+          {isDark ? (
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" /></svg>
+          ) : (
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+            </svg>
+          )}
+          {label}
+        </span>
+        <span className="dg-count">{images.length} screens · drag or scroll →</span>
+      </div>
+
+      <div className="dg-stage">
+        <button
+          className="dg-arrow dg-prev"
+          onClick={() => scrollOne(-1)}
+          disabled={edge.atStart}
+          aria-label={`${label}: previous screen`}
+        >‹</button>
+
+        <div
+          className={`dg-strip${dragging ? " dg-dragging" : ""}`}
+          ref={stripRef}
+          tabIndex={0}
+          onScroll={updateEdges}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onKeyDown={onKeyDown}
+        >
+          {images.map((src, i) => (
+            <div
+              key={src}
+              className="dg-item"
+              onClick={() => { if (!drag.current.moved) onOpen(images, i); }}
+              title="Click to view full size · drag to scroll"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={src}
+                alt={`${title} ${label} screen ${i + 1}`}
+                className="dg-img"
+                loading="lazy"
+                draggable={false}
+              />
+              <span className="dg-num">{String(i + 1).padStart(2, "0")}</span>
+            </div>
+          ))}
+        </div>
+
+        <button
+          className="dg-arrow dg-next"
+          onClick={() => scrollOne(1)}
+          disabled={edge.atEnd}
+          aria-label={`${label}: next screen`}
+        >›</button>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Lightbox (zoom overlay) ─────────────────────────────────────── */
 function Lightbox({ images, startIndex, onClose }) {
   const [idx, setIdx] = useState(startIndex);
@@ -762,7 +978,8 @@ export default function Projects() {
   const [selected, setSelected] = useState(null);
   const [dots, setDots] = useState([]);
   const [imgIndex, setImgIndex] = useState(0);
-  const [lightboxIndex, setLightboxIndex] = useState(null);
+  // { images: string[], index: number } | null
+  const [lightbox, setLightbox] = useState(null);
   const backdropRef = useRef(null);
 
   useEffect(() => {
@@ -780,23 +997,24 @@ export default function Projects() {
   }, []);
 
   const openModal = (p) => { setSelected(p); setImgIndex(0); document.body.style.overflow = "hidden"; };
-  const closeModal = () => { setSelected(null); setLightboxIndex(null); document.body.style.overflow = ""; };
-  const openLightbox = (idx) => { setLightboxIndex(idx); };
-  const closeLightbox = () => setLightboxIndex(null);
+  const closeModal = () => { setSelected(null); setLightbox(null); document.body.style.overflow = ""; };
+  const openLightbox = (images, index) => { setLightbox({ images, index }); };
+  const closeLightbox = () => setLightbox(null);
 
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === "Escape" && lightboxIndex === null) closeModal();
+      if (e.key === "Escape" && lightbox === null) closeModal();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [lightboxIndex]);
+  }, [lightbox]);
 
   const prevImg = () => setImgIndex((i) => (i - 1 + selected.images.length) % selected.images.length);
   const nextImg = () => setImgIndex((i) => (i + 1) % selected.images.length);
 
-  // Split the 9 Figma projects into 3 rows of 3.
-  const rows = [PROJECTS.slice(0, 3), PROJECTS.slice(3, 6), PROJECTS.slice(6, 9)];
+  // Split all projects into rows of 3 (works for any number of projects).
+  const rows = [];
+  for (let i = 0; i < PROJECTS.length; i += 3) rows.push(PROJECTS.slice(i, i + 3));
 
   return (
     <>
@@ -1030,7 +1248,7 @@ export default function Projects() {
           .hero-tagline { -webkit-line-clamp: 4; }
         }
 
-        /* ══════════════════ FIGMA PROJECTS — 3 rows of 3, each row ≈ one screen ══════════════════ */
+        /* ══════════════════ PROJECT ROWS — 3 cards per row ══════════════════ */
         .pr-rows { max-width: 1080px; margin: 0 auto; position: relative; z-index: 2; }
         .pr-row {
           display: flex; align-items: center; justify-content: center;
@@ -1139,6 +1357,16 @@ export default function Projects() {
         }
         .mgal-img-wrap.show { opacity: 1; }
         .mgal-pdf { width: 100%; height: 100%; border: none; display: block; }
+        .pdf-open-btn {
+          position: absolute; bottom: 14px; right: 16px; z-index: 6;
+          font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .08em;
+          color: #fff; text-decoration: none;
+          background: rgba(124,58,237,0.88); border: 0.5px solid rgba(167,139,250,0.6);
+          border-radius: 999px; padding: 8px 16px;
+          box-shadow: 0 0 18px rgba(124,58,237,0.45);
+          transition: all 0.2s;
+        }
+        .pdf-open-btn:hover { transform: translateY(-2px); background: rgba(124,58,237,1); box-shadow: 0 0 28px rgba(124,58,237,0.7); }
         .gal-overlay {
           position: absolute; inset: 0;
           background: linear-gradient(to bottom, transparent 75%, rgba(4,2,18,0.3) 100%);
@@ -1199,6 +1427,96 @@ export default function Projects() {
         .cta-primary:hover { transform: translateY(-2px); background: rgba(124,58,237,0.95); box-shadow: 0 0 32px rgba(124,58,237,0.55), inset 0 0 0 0.5px rgba(255,255,255,0.12); }
         .cta-ghost { background: rgba(255,255,255,0.06); color: rgba(200,185,255,.75); border: 0.5px solid rgba(167,139,250,.2); }
         .cta-ghost:hover { border-color: rgba(167,139,250,.5); background: rgba(124,58,237,.18); color: #fff; transform: translateY(-2px); box-shadow: 0 0 16px rgba(124,58,237,0.2); }
+
+        /* ══════════════════ DUAL GALLERY — light row + dark row (AC CRM) ══════════════════ */
+        .modal-dual { display: flex; flex-direction: column; gap: 18px; margin-bottom: 26px; }
+        .dg-row {
+          position: relative;
+          border-radius: 16px; padding: 12px 14px 14px;
+          background: linear-gradient(160deg, rgba(226,232,255,0.10), rgba(180,195,255,0.05));
+          border: 0.5px solid rgba(200,210,255,0.22);
+        }
+        .dg-row-dark {
+          background: linear-gradient(160deg, rgba(6,10,28,0.85), rgba(3,5,16,0.95));
+          border: 0.5px solid rgba(99,120,255,0.25);
+        }
+        .dg-head {
+          display: flex; align-items: center; justify-content: space-between; gap: 10px;
+          margin-bottom: 10px;
+        }
+        .modal-dual .dg-row:first-child .dg-head { padding-right: 44px; }
+        .dg-label {
+          display: inline-flex; align-items: center; gap: 7px;
+          font-family: 'Syne', sans-serif; font-size: 10.5px; font-weight: 600;
+          letter-spacing: .22em; text-transform: uppercase;
+          color: rgba(232,236,255,0.92);
+          background: rgba(120,140,255,0.16); border: 0.5px solid rgba(160,175,255,0.35);
+          border-radius: 999px; padding: 5px 12px;
+        }
+        .dg-row-dark .dg-label { color: #aab6ff; background: rgba(60,80,200,0.2); border-color: rgba(99,120,255,0.4); }
+        .dg-count { font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: rgba(190,200,255,0.5); }
+        .dg-stage { position: relative; }
+        .dg-strip {
+          display: flex; gap: 14px; column-gap: 14px;
+          overflow-x: auto; overflow-y: hidden;
+          scroll-snap-type: x mandatory; scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+          /* horizontal gestures stay inside the strip, vertical ones scroll the popup */
+          overscroll-behavior-x: contain; overscroll-behavior-y: auto;
+          touch-action: pan-x pan-y;
+          padding: 4px 2px 14px;
+          cursor: grab; outline: none;
+          /* visible horizontal scrollbar */
+          scrollbar-width: thin;
+          scrollbar-color: #7c3aed rgba(167,139,250,0.14);
+        }
+        .dg-strip::-webkit-scrollbar { height: 7px; }
+        .dg-strip::-webkit-scrollbar-track { background: rgba(167,139,250,0.14); border-radius: 99px; }
+        .dg-strip::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #7c3aed, #818cf8); border-radius: 99px; }
+        .dg-strip::-webkit-scrollbar-thumb:hover { background: linear-gradient(90deg, #8b5cf6, #67e8f9); }
+        .dg-strip:focus-visible { box-shadow: 0 0 0 1px rgba(167,139,250,0.55); border-radius: 12px; }
+        .dg-strip.dg-dragging {
+          cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; user-select: none;
+        }
+        .dg-strip.dg-dragging .dg-item { cursor: grabbing; pointer-events: none; transform: none; }
+        .dg-item {
+          position: relative; flex: 0 0 auto;
+          height: clamp(340px, 56vh, 520px);
+          aspect-ratio: 402 / 874;
+          border-radius: 18px; overflow: hidden;
+          scroll-snap-align: start;
+          background: rgba(0,0,0,0.35);
+          border: 0.5px solid rgba(167,139,250,0.22);
+          box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+          cursor: inherit;
+          transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s, border-color 0.25s;
+        }
+        .dg-item:hover { transform: translateY(-4px); border-color: rgba(167,139,250,0.55); box-shadow: 0 22px 54px rgba(0,0,0,0.55), 0 0 30px rgba(99,120,255,0.18); }
+        .dg-img { width: 100%; height: 100%; object-fit: cover; display: block; user-select: none; -webkit-user-drag: none; }
+        .dg-num {
+          position: absolute; top: 8px; left: 10px;
+          font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+          color: rgba(255,255,255,0.85); text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+          background: rgba(10,6,30,0.55); border-radius: 999px; padding: 1px 8px;
+          backdrop-filter: blur(6px);
+        }
+        .dg-arrow {
+          position: absolute; top: 50%; transform: translateY(-50%); z-index: 6;
+          width: 40px; height: 40px; border-radius: 50%;
+          background: rgba(8,5,22,0.78); border: 0.5px solid rgba(167,139,250,0.45);
+          color: #fff; font-size: 22px; line-height: 1;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; transition: all 0.2s; backdrop-filter: blur(8px);
+        }
+        .dg-arrow:hover:not(:disabled) { background: rgba(124,58,237,0.6); border-color: rgba(167,139,250,0.85); box-shadow: 0 0 16px rgba(124,58,237,0.5); }
+        .dg-arrow:disabled { opacity: 0.25; cursor: default; }
+        .dg-prev { left: -6px; }
+        .dg-next { right: -6px; }
+        @media (max-width: 600px) {
+          .dg-item { height: clamp(300px, 52vh, 440px); }
+          .dg-prev { left: -2px; } .dg-next { right: -2px; }
+          .dg-count { display: none; }
+        }
 
         /* ── LIGHTBOX ── */
         .lb-backdrop {
@@ -1357,49 +1675,85 @@ export default function Projects() {
               <div className="modal-top-bar" style={{ background: `linear-gradient(90deg, transparent, ${selected.color}ee, rgba(167,139,250,1), ${selected.color}ee, transparent)` }} />
               <button className="modal-close" onClick={closeModal} aria-label="Close">✕</button>
 
-              <div className="modal-gallery">
-                {selected.type === "pdf" ? (
-                  <iframe src={selected.images[0]} title={selected.title} className="mgal-pdf" />
-                ) : (
-                  <>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      key={selected.images[imgIndex]}
-                      src={selected.images[imgIndex]}
-                      alt={`${selected.title} screenshot ${imgIndex + 1}`}
-                      className="gal-img-clickable"
-                      onClick={() => openLightbox(imgIndex)}
-                      title="Click to view full size"
-                    />
-
-                    {selected.images[imgIndex + 1] && (
-                      <link rel="preload" as="image" href={selected.images[imgIndex + 1]} />
-                    )}
-
-                    <div className="gal-overlay" style={{ pointerEvents: "none" }} />
-                    {selected.images.length > 1 && (
+              {/* Standard single gallery (all projects except the dual-row one) */}
+              {!selected.galleryRows && (
+                <>
+                  <div className="modal-gallery">
+                    {selected.type === "pdf" ? (
                       <>
-                        <button className="gal-arrow prev" onClick={prevImg} aria-label="Previous">‹</button>
-                        <button className="gal-arrow next" onClick={nextImg} aria-label="Next">›</button>
+                        <iframe
+                          src={encodeURI(selected.images[0])}
+                          title={selected.title}
+                          className="mgal-pdf"
+                        />
+                        {/* Fallback: works on phones and if the browser/site blocks PDF-in-iframe */}
+                        <a
+                          href={encodeURI(selected.images[0])}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="pdf-open-btn"
+                        >
+                          Open PDF ↗
+                        </a>
+                      </>
+                    ) : (
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          key={selected.images[imgIndex]}
+                          src={selected.images[imgIndex]}
+                          alt={`${selected.title} screenshot ${imgIndex + 1}`}
+                          className="gal-img-clickable"
+                          onClick={() => openLightbox(selected.images, imgIndex)}
+                          title="Click to view full size"
+                        />
+
+                        {selected.images[imgIndex + 1] && (
+                          <link rel="preload" as="image" href={selected.images[imgIndex + 1]} />
+                        )}
+
+                        <div className="gal-overlay" style={{ pointerEvents: "none" }} />
+                        {selected.images.length > 1 && (
+                          <>
+                            <button className="gal-arrow prev" onClick={prevImg} aria-label="Previous">‹</button>
+                            <button className="gal-arrow next" onClick={nextImg} aria-label="Next">›</button>
+                          </>
+                        )}
+                        <div className="gal-dots">
+                          {selected.images.map((_, idx) => (
+                            <button
+                              key={idx}
+                              className={`gal-dot${imgIndex === idx ? " on" : ""}`}
+                              onClick={() => setImgIndex(idx)}
+                              aria-label={`Image ${idx + 1}`}
+                            />
+                          ))}
+                        </div>
                       </>
                     )}
-                    <div className="gal-dots">
-                      {selected.images.map((_, idx) => (
-                        <button
-                          key={idx}
-                          className={`gal-dot${imgIndex === idx ? " on" : ""}`}
-                          onClick={() => setImgIndex(idx)}
-                          aria-label={`Image ${idx + 1}`}
-                        />
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
+                  </div>
 
-              <div className="modal-divider" />
+                  <div className="modal-divider" />
+                </>
+              )}
 
               <div className="modal-content">
+                {/* Dual-row gallery: row 1 = light mode, row 2 = dark mode */}
+                {selected.galleryRows && (
+                  <div className="modal-dual">
+                    {selected.galleryRows.map((row) => (
+                      <GalleryRow
+                        key={row.label}
+                        label={row.label}
+                        mode={row.mode}
+                        images={row.images}
+                        title={selected.title}
+                        onOpen={openLightbox}
+                      />
+                    ))}
+                  </div>
+                )}
+
                 <div className="modal-meta">
                   <span className="mbadge">{selected.category}</span>
                   <span className="mdot">·</span>
@@ -1453,10 +1807,10 @@ export default function Projects() {
       )}
 
       {/* ── LIGHTBOX ZOOM OVERLAY ── */}
-      {selected && lightboxIndex !== null && (
+      {selected && lightbox && (
         <Lightbox
-          images={selected.images}
-          startIndex={lightboxIndex}
+          images={lightbox.images}
+          startIndex={lightbox.index}
           onClose={closeLightbox}
         />
       )}
