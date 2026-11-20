@@ -5,6 +5,15 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 const RECOGNITION_ITEMS = [
+  // 🆕 NEW IMAGE — now first in Achievements & Recognition (replace src/title/event/date)
+  {
+    id: 8,
+    type: "image",
+    src: "/IMG_5834.JPG.jpeg",
+    title: "Founder of AI Club",
+    event: "Founder of AI Club in GITA Autonomous College",
+    date: "2026",
+  },
   {
     id: 1,
     type: "image",
@@ -57,7 +66,7 @@ const RECOGNITION_ITEMS = [
     id: 7,
     type: "video",
     src: "/vsut.mp4",
-    poster: "",
+    poster: "/A1.png",
     title: "Hackathon Winner",
     event: "VSSUT Hackathon 2024 - Winner",
     date: "2024",
@@ -75,6 +84,9 @@ const GALLERY_IMAGES = [
   { id: 8,  src: "/7.png",           caption: "BPUT Achievement" },
   { id: 9,  src: "/8.png",           caption: "Trident Trithon Winner" },
   { id: 10, src: "/Clg 2.JPG",       caption: "Chief Organiser" },
+  // 🆕 NEW IMAGES — Gallery (replace src/caption)
+  { id: 11, src: "/IMG_5946.JPG.jpeg",           caption: "Chakravyuh 1.O- All India National Level Hackathon" },
+  { id: 12, src: "/IMG_6394.JPG.jpeg",          caption: "Chakravyuh 1.O- All India National Level Hackathon" },
 ];
 
 function generateDots() {
